@@ -5,6 +5,7 @@ import debug from 'debug';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import pg from 'pg';
+import router from './src/router.js';
 
 // Configure environment variables
 dotenv.config({ path: './config/.env' });
@@ -23,14 +24,13 @@ app.use(
 );
 
 // Connect to PostgreSQL
-const db = new pg.Client({
+export const db = new pg.Client({
   user: 'postgres',
   host: 'localhost',
   database: 'ediplan',
   password: '14563221',
   port: 5432,
 });
-
 db.connect();
 
 // Middleware
@@ -41,6 +41,9 @@ app.use(morgan('dev'));
 app.get('/', (req, res) => {
   res.send(JSON.stringify(`Hello from Node.js!`));
 });
+
+// API routes
+app.use('/api/assets', router);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

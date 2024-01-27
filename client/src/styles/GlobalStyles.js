@@ -1,7 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
-import GlobalStyles from '../../../../ultimate-react-course-main/the-wild-oasis/src/styles/GlobalStyles';
 
-createGlobalStyle`
+const GlobalStyles = createGlobalStyle`
 /* Reset some default styles */
 *,
 *::before,
@@ -36,6 +35,24 @@ textarea,
 select {
   font: inherit;
   color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+select:disabled,
+input:disabled {
+  background-color: var(--color-grey-200);
+  color: var(--color-grey-500);
+}
+
+input:focus,
+button:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--color-brand-600);
+  outline-offset: -1px;
 }
 
 /* sets line-height to 0, removing extra space for button with SVG */
@@ -106,11 +123,17 @@ img {
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
+  --shadow-tab-active: 8px -0.8rem 1.2rem 0rem rgba(0,0,0,0.06);
+  --shadow-tab-inactive: 0px -0.5rem 0.8rem -0.4rem rgba(0,0,0,0.1);
+
   
-  --border-radius-tiny: 3px;
+  --border-radius-xs: 3px;
   --border-radius-sm: 5px;
   --border-radius-md: 7px;
   --border-radius-lg: 9px;
+
+  --table-font-size: 1.4rem;
+  --table-font-weight: 600rem;
   
   /* For dark mode */
   --image-grayscale: 0;

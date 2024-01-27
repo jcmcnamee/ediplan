@@ -21,7 +21,8 @@ import People from './pages/People';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000, // 60 * 1000 milliseconds
+      // staleTime: 60 * 1000, // 60 * 1000 milliseconds
+      staleTime: 0,
     },
   },
 });

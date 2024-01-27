@@ -17,21 +17,31 @@ const StyledNavLink = styled(NavLink)`
     border-style: solid;
     border-color: var(--color-brand-200);
     border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+    box-shadow: var(--shadow-tab-inactive);
   }
 
   &:hover,
   &:active,
+  &:focus,
   &.active:link,
-  &.active:visited {
+  &.active:visited,
+  &.active:focus {
     color: var(--color-grey-800);
     background-color: var(--color-brand-100);
+    z-index: 1;
+    padding: 0.4rem 1.5rem;
+    position: relative;
+    bottom: -1px;
+    box-shadow: var(--shadow-tab-active);
   }
 `;
 
 function Tab({ route, children }) {
   return (
     <li>
-      <StyledNavLink to={route}>{children}</StyledNavLink>
+      <StyledNavLink to={route} tabIndex={0}>
+        {children}
+      </StyledNavLink>
     </li>
   );
 }

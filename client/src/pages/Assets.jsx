@@ -10,7 +10,6 @@ function Assets() {
         <Tab route="./rooms">Rooms</Tab>
         <Tab route="./people">People</Tab>
       </TabContainer>
-      <div>Assets page</div>
       <Outlet />
     </>
   );
