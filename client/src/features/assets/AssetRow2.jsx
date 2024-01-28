@@ -18,25 +18,14 @@ const TableRow = styled.div`
   }
 `;
 
-const Make = styled.div`
-  font-size: var(--table-font-size);
-  font-weight: var(--table-font-weight);
-`;
-const Model = styled.div`
-  font-size: var(--table-font-size);
-  font-weight: var(--table-font-weight);
-`;
-const Description = styled.div`
-  font-size: var(--table-font-size);
-  font-weight: var(--table-font-weight);
-`;
-const Price = styled.div`
+const RowItem = styled.div`
   font-size: var(--table-font-size);
   font-weight: var(--table-font-weight);
 `;
 
-function EquipmentRow({ asset }) {
-  const { id, make, model, description, price, price_unit } = asset;
+function AssetRow2({ asset, queryKey }) {
+  const properties = Object.values(asset);
+
   const [showForm, setShowForm] = useState(false);
 
   const queryClient = useQueryClient();
@@ -45,25 +34,24 @@ function EquipmentRow({ asset }) {
     onSuccess: () => {
       toast.success('Asset successfully deleted');
 
-      queryClient.invalidateQueries({ queryKey: ['equipment'] });
+      queryClient.invalidateQueries({ queryKey: [queryKey] });
     },
     onError: err => toast.error(err.message),
   });
 
   return (
     <TableRow role="row">
-      <Make>{make}</Make>
-      <Model>{model}</Model>
-      <Description>{description}</Description>
-      <Price>{`£${price} p/${price_unit}`}</Price>
+      {properties.map((property, index) => (
+        <RowItem key={index}>{property}</RowItem>
+      ))}
       <div>
         <button>Edit</button>
-        <button onClick={() => mutate(id)} disabled={isDeleting}>
+        {/* <button onClick={() => mutate(id)} disabled={isDeleting}>
           Delete
-        </button>
+        </button> */}
       </div>
     </TableRow>
   );
 }
 
-export default EquipmentRow;
+export default AssetRow2;

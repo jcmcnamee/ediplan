@@ -5,6 +5,7 @@ import { fetchEquip } from '../../services/assetsApi';
 
 import Spinner from '../../ui/Spinner';
 import EquipmentRow from './EquipmentRow';
+import AssetRow2 from './AssetRow2';
 
 const Table = styled.div`
   border: 1px solid var(--color-brand-200);
@@ -18,7 +19,7 @@ const Table = styled.div`
 
 const TableHeader = styled.header`
   display: grid;
-  grid-template-columns: 1fr 1fr 4fr 1fr 1fr;
+  grid-template-columns: ${props => props.$columnTemplate} 1fr;
   column-gap: 0.5rem;
   align-items: center;
 
@@ -31,32 +32,42 @@ const TableHeader = styled.header`
   padding: 1rem 2rem;
 `;
 
-function EquipmentTable() {
+const queryFunctionMap = {
+  equipment: fetchEquip,
+};
+
+const rowMap = {
+  equipment: EquipmentRow,
+};
+
+function AssetTable({ headers, queryKey }) {
+  const queryFn = queryFunctionMap[queryKey];
+  const AssetRow = rowMap[queryKey];
+
   const {
-    data: equipment,
+    data: asset,
     error,
     isLoading,
   } = useQuery({
-    queryKey: ['equipment'],
-    queryFn: fetchEquip,
+    queryKey: [queryKey],
+    queryFn,
   });
-
-  console.log(equipment);
 
   if (isLoading) return <Spinner />;
 
   return (
     <Table role="table">
-      <TableHeader role="row">
-        <div>Make</div>
-        <div>Model</div>
-        <div>Description</div>
-        <div>Price</div>
+      <TableHeader role="row" $columnTemplate={headers.columnTemplate}>
+        {headers.items.map((header, index) => (
+          <div key={index}>{header}</div>
+        ))}
         <div></div>
       </TableHeader>
-      {equipment.map(equipment => <EquipmentRow equipment={equipment} key={equipment.id} />)}
+      {asset.map(asset => (
+        <AssetRow2 asset={asset} key={asset.id} />
+      ))}
     </Table>
   );
 }
 
-export default EquipmentTable;
+export default AssetTable;
