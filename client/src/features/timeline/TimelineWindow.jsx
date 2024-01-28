@@ -41,15 +41,15 @@ function TimelineWindow({ booking, currentDate }) {
       TimelineWindow
       <Toolbar>
         <ToolbarButton
-          size="single"
-          variation="primary"
+          $size="single"
+          $variation="primary"
           onClick={handleDecrement}
         >
           <span>-</span>
         </ToolbarButton>
         <ToolbarButton
-          size="single"
-          variation="primary"
+          $size="single"
+          $variation="primary"
           onClick={handleIncrement}
         >
           <span>+</span>

@@ -1,4 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 import styled from 'styled-components';
 import { deleteEquip } from '../../services/assetsApi';
 
@@ -35,14 +37,17 @@ const Price = styled.div`
 
 function EquipmentRow({ equipment }) {
   const { id, make, model, description, price, price_unit } = equipment;
+  const [showForm, setShowForm] = useState(false);
 
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isLoading: isDeleting } = useMutation({
     mutationFn: deleteEquip,
     onSuccess: () => {
+      toast.success('Asset successfully deleted');
+
       queryClient.invalidateQueries({ queryKey: ['equipment'] });
     },
-    onError: err => alert(err.message),
+    onError: err => toast.error(err.message),
   });
 
   return (
@@ -51,9 +56,9 @@ function EquipmentRow({ equipment }) {
       <Model>{model}</Model>
       <Description>{description}</Description>
       <Price>{`£${price} p/${price_unit}`}</Price>
-      <button onClick={() => mutate(id)} disabled={isLoading}>
+      <div><button>Edit</button><button onClick={() => mutate(id)} disabled={isDeleting}>
         Delete
-      </button>
+      </button></div>
     </TableRow>
   );
 }

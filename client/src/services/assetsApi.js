@@ -24,6 +24,15 @@ export async function deleteEquip(id) {
   }
 }
 
+export async function addEquip (data){
+  try{
+    const res = await api.put(`api/assets/equip`, data)
+    return res.data;
+  }catch(err){
+    console.error(err);
+  }
+}
+
 // export const fetchRoom = async () => {
 //   try {
 //     const res = await api.get('api/assets/room');

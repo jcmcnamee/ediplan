@@ -51,13 +51,13 @@ const ToolbarButton = styled.button`
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-lg);
 
-  ${props => sizes[props.size]}
-  ${props => variations[props.variation]}
+  ${props => sizes[props.$size]}
+  ${props => variations[props.$variation]}
 `;
 
 ToolbarButton.defaultProps = {
-  variation: 'primary',
-  size: 'single',
+  $variation: 'primary',
+  $size: 'single',
 };
 
 export default ToolbarButton;
