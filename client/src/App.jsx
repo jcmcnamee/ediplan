@@ -18,6 +18,7 @@ import GlobalStyles from './styles/GlobalStyles';
 import Rooms from './pages/Rooms';
 import People from './pages/People';
 import { Toaster } from 'react-hot-toast';
+import AssetTable from './features/assets/AssetTable';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,9 +45,9 @@ function App() {
             <Route path="bookings" element={<Bookings />} />
             <Route path="assets" element={<Assets />}>
               <Route index element={<Navigate replace to="equip" />} />
-              <Route path="equip" element={<Equipment />} />
-              <Route path="rooms" element={<Rooms />} />
-              <Route path="people" element={<People />} />
+              <Route path="equip" element={<AssetTable />} />
+              <Route path="rooms" element={<AssetTable />} />
+              <Route path="personel" element={<AssetTable />} />
             </Route>
             <Route path="groups" element={<Groups />} />
             <Route path="productions" element={<Productions />} />

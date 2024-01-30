@@ -6,16 +6,18 @@ const api = axios.create({
   baseURL: BASE_URL,
 });
 
-export async function fetchEquip() {
+export async function fetchAssets({ queryKey }) {
+  const category = queryKey[0];
   try {
-    const res = await api.get('api/assets/equip');
+    const res = await api.get(`api/assets/${category}`);
+    console.log(res.data);
     return res.data;
   } catch (err) {
-    console.error('Error fetching data:', err);
+    console.error(`Error fetching ${category}: ${err}`);
   }
 }
 
-export async function deleteEquip(id) {
+export async function deleteAsset(id) {
   try {
     const res = await api.delete(`api/assets/${id}`);
     return res.data;
@@ -24,29 +26,11 @@ export async function deleteEquip(id) {
   }
 }
 
-export async function addEquip (data){
-  try{
-    const res = await api.put(`api/assets/equip`, data)
+export async function addAsset(category, data) {
+  try {
+    const res = await api.put(`api/assets/${category}`, data);
     return res.data;
-  }catch(err){
-    console.error(err);
+  } catch (err) {
+    console.error(`Error adding ${category}: ${err}`);
   }
 }
-
-// export const fetchRoom = async () => {
-//   try {
-//     const res = await api.get('api/assets/room');
-//     return res.data;
-//   } catch (err) {
-//     console.error('Error fetching data:', err);
-//   }
-// };
-
-// export const fetchPerson = async () => {
-//   try {
-//     const res = await api.get('api/assets/person');
-//     return res.data;
-//   } catch (err) {
-//     console.error('Error fetching data:', err);
-//   }
-// };

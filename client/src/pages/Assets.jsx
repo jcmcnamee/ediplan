@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import CreateAssetForm from '../features/assets/CreateAssetForm';
-import { fetchEquip } from '../services/assetsApi';
+import { fetchAssets } from '../services/assetsApi';
 import Tab from '../ui/Tab';
 import TabContainer from '../ui/TabContainer';
 import Toolbar from '../ui/Toolbar';
@@ -15,29 +15,41 @@ const Container = styled.div`
   gap: 20px;
 `;
 
+const tableOptions = {
+  equip: {
+    headers: ['Make', 'Model', 'Description', 'Price'],
+    columnTemplate: '1fr 1fr 4fr 1fr',
+  },
+  rooms: {
+    headers: ['Name', 'Location', 'Use', 'Price'],
+    columnTemplate: '1fr 1fr 1fr 0.5fr',
+  },
+  personel: {
+    headers: ['Name', 'Address', 'Phone', 'email', 'rate'],
+    columnTemplate: '1.5fr 2fr 1fr 2fr 1fr',
+  },
+};
+
 function Assets() {
   const [showForm, setShowForm] = useState(false);
-  
+
   const location = useLocation();
   const currentPath = location.pathname.split('/');
-  const currentCategory = currentPath[currentPath.length - 1];
-  console.log(`Current category: ${currentCategory}`);
-
-  
+  const category = currentPath[currentPath.length - 1];
 
   return (
     <Container>
       <Toolbar>
         <ToolbarButton onClick={() => setShowForm(!showForm)}>+</ToolbarButton>
       </Toolbar>
-      {showForm && <CreateAssetForm category={currentCategory} />}
+      {showForm && <CreateAssetForm category={category} />}
       <div>
         <TabContainer>
           <Tab route="./equip">Assets</Tab>
           <Tab route="./rooms">Rooms</Tab>
-          <Tab route="./people">People</Tab>
+          <Tab route="./personel">People</Tab>
         </TabContainer>
-        <Outlet />
+        <Outlet context={{ tableOptions, category }} />
       </div>
     </Container>
   );

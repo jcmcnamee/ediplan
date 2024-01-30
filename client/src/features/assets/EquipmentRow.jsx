@@ -39,17 +39,6 @@ function EquipmentRow({ asset }) {
   const { id, make, model, description, price, price_unit } = asset;
   const [showForm, setShowForm] = useState(false);
 
-  const queryClient = useQueryClient();
-  const { mutate, isLoading: isDeleting } = useMutation({
-    mutationFn: deleteEquip,
-    onSuccess: () => {
-      toast.success('Asset successfully deleted');
-
-      queryClient.invalidateQueries({ queryKey: ['equipment'] });
-    },
-    onError: err => toast.error(err.message),
-  });
-
   return (
     <TableRow role="row">
       <Make>{make}</Make>
@@ -58,9 +47,9 @@ function EquipmentRow({ asset }) {
       <Price>{`£${price} p/${price_unit}`}</Price>
       <div>
         <button>Edit</button>
-        <button onClick={() => mutate(id)} disabled={isDeleting}>
+        {/* <button onClick={() => mutate(id)} disabled={isDeleting}>
           Delete
-        </button>
+        </button> */}
       </div>
     </TableRow>
   );

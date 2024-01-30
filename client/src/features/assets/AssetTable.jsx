@@ -1,11 +1,9 @@
+import { useFetchAssets } from './useFetchAssets';
+import { useOutletContext } from 'react-router-dom';
+
 import styled from 'styled-components';
-
-import { useQuery } from '@tanstack/react-query';
-import { fetchEquip } from '../../services/assetsApi';
-
 import Spinner from '../../ui/Spinner';
-import EquipmentRow from './EquipmentRow';
-import AssetRow2 from './AssetRow2';
+import AssetRow from './AssetRow';
 
 const Table = styled.div`
   border: 1px solid var(--color-brand-200);
@@ -32,39 +30,32 @@ const TableHeader = styled.header`
   padding: 1rem 2rem;
 `;
 
-const queryFunctionMap = {
-  equipment: fetchEquip,
-};
+function AssetTable() {
+  const { tableOptions, category } = useOutletContext();
+  const { assets, error, isLoading } = useFetchAssets(category);
 
-const rowMap = {
-  equipment: EquipmentRow,
-};
+  const tableHeaders = tableOptions[category].headers;
+  const columnTemplate = tableOptions[category].columnTemplate;
 
-function AssetTable({ headers, queryKey }) {
-  const queryFn = queryFunctionMap[queryKey];
-  const AssetRow = rowMap[queryKey];
-
-  const {
-    data: asset,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKey],
-    queryFn,
-  });
+  console.log(tableOptions[category].headers);
 
   if (isLoading) return <Spinner />;
 
   return (
     <Table role="table">
-      <TableHeader role="row" $columnTemplate={headers.columnTemplate}>
-        {headers.items.map((header, index) => (
+      <TableHeader role="row" $columnTemplate={columnTemplate}>
+        {tableHeaders.map((header, index) => (
           <div key={index}>{header}</div>
         ))}
-        <div></div>
+        <div>Controls</div>
       </TableHeader>
-      {asset.map(asset => (
-        <AssetRow2 asset={asset} key={asset.id} />
+      {assets.map(asset => (
+        <AssetRow
+          asset={asset}
+          category={category}
+          columnTemplate={columnTemplate}
+          key={asset.id}
+        />
       ))}
     </Table>
   );

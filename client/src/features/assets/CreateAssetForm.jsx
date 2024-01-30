@@ -7,7 +7,7 @@ import Form from '../../ui/Form';
 import Button from '../../ui/Button';
 import Textarea from '../../ui/Textarea';
 import Select from '../../ui/Select';
-import { addEquip } from '../../services/assetsApi';
+import { addAsset } from '../../services/assetsApi';
 import toast from 'react-hot-toast';
 import FormRow from '../../ui/FormRow';
 
@@ -16,10 +16,10 @@ function CreateAssetForm({ category }) {
   const queryClient = useQueryClient();
 
   const { mutate, isLoading: isCreating } = useMutation({
-    mutationFn: addEquip,
+    mutationFn: addAsset,
     onSuccess: () => {
       toast.success('New asset successfully created.');
-      queryClient.invalidateQueries({ queryKey: ['equipment'] });
+      queryClient.invalidateQueries({ queryKey: [category] });
       reset();
     },
     onError: err => {

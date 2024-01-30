@@ -1,9 +1,18 @@
 import express from 'express';
-import { deleteEquip, getAllEquipment } from './controllers/assetController.js';
+import {
+  addEquipment,
+  deleteAsset,
+  getAllEquipment,
+  getAllRooms,
+  getAllPersonel,
+} from './controllers/assetController.js';
 
 const router = express.Router();
 
 router.get('/equip', getAllEquipment);
-router.delete('/:id', deleteEquip);
+router.get('/rooms', getAllRooms);
+router.get('/personel', getAllPersonel);
+router.delete('/:id', deleteAsset);
+router.put('/equip', addEquipment);
 
 export default router;
