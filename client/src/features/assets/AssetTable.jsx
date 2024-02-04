@@ -37,8 +37,6 @@ function AssetTable() {
   const tableHeaders = tableOptions[category].headers;
   const columnTemplate = tableOptions[category].columnTemplate;
 
-  console.log(tableOptions[category].headers);
-
   if (isLoading) return <Spinner />;
 
   return (

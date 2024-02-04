@@ -5,11 +5,13 @@ import {
   getAllEquipment,
   getAllRooms,
   getAllPersonel,
+  updateAsset,
 } from './controllers/assetController.js';
 
 const router = express.Router();
 
 router.get('/equip', getAllEquipment);
+router.patch('/:id', updateAsset);
 router.get('/rooms', getAllRooms);
 router.get('/personel', getAllPersonel);
 router.delete('/:id', deleteAsset);

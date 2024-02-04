@@ -17,8 +17,8 @@ const Container = styled.div`
 
 const tableOptions = {
   equip: {
-    headers: ['Make', 'Model', 'Description', 'Price'],
-    columnTemplate: '1fr 1fr 4fr 1fr',
+    headers: ['Make', 'Model', 'Description', 'Rate', ''],
+    columnTemplate: '1fr 1fr 4fr 0.5fr 0.5fr',
   },
   rooms: {
     headers: ['Name', 'Location', 'Use', 'Price'],

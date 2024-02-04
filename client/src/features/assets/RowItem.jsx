@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 
 const StyledRowItem = styled.div`
@@ -15,10 +18,38 @@ const StyledInput = styled.input`
   width: 100%;
 `;
 
+// USE TERNARY CONDITIONAL STATEMENET IN HERE
+// ALSO NEED TO DO SOMETHING ABOUT PRICE PER DAY
 function RowItem({ children, editMode, assetKey }) {
-  if (!editMode) return <StyledRowItem>{children}</StyledRowItem>;
-  if (editMode)
-    return <StyledInput type="text" id={assetKey} placeholder={children} />;
+  const { register, setValue } = useFormContext();
+
+  useEffect(
+    function () {
+      setValue(assetKey, children);
+    },
+    [children, setValue, assetKey]
+  );
+
+  return !editMode ? (
+    <StyledRowItem>{children}</StyledRowItem>
+  ) : assetKey === 'priceUnit' ? (
+    <select
+      type="text"
+      id={assetKey}
+      defaultValue={children}
+      {...register(assetKey)}
+    >
+      <option>Hour</option>
+      <option>Day</option>
+    </select>
+  ) : (
+    <StyledInput
+      type="text"
+      id={assetKey}
+      defaultValue={children}
+      {...register(assetKey)}
+    />
+  );
 }
 
 export default RowItem;

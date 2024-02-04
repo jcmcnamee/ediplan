@@ -18,7 +18,8 @@ export const getAllEquipment = async (req, res) => {
         make: row.make,
         model: row.model,
         description: row.description,
-        cost: `£${row.price} p/${row.price_unit}`,
+        price: row.price,
+        priceUnit: row.price_unit,
       };
     });
 
@@ -146,6 +147,7 @@ export async function addEquipment(req, res) {
     const assetResult = await db.query(insertAssetQuery);
     const assetId = assetResult.rows[0].id;
 
+    // Now insert into correct asset category
     const insertEquipQuery = {
       text: `
       INSERT INTO equipment(id, make, model, description)
@@ -161,7 +163,41 @@ export async function addEquipment(req, res) {
     res.status(201).json({ message: 'Rows added successfully' });
   } catch (err) {
     await db.query('ROLLBACK');
-    console.error(`Error executing SQL query: `, err);
+    console.error(`Error executing SQL query: ${err}`);
     res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+export async function updateAsset(req, res) {
+  console.log(req.body);
+  try {
+    await db.query('BEGIN');
+
+    const editAssetQuery = {
+      text: `
+      UPDATE asset
+      SET price = $1, price_unit = $2
+      WHERE id=$3`,
+      values: [req.body.price, req.body.priceUnit, req.params.id],
+    };
+    await db.query(editAssetQuery);
+
+    const editEquipQuery = {
+      text: `UPDATE equipment
+      SET make=$1, model=$2, description=$3
+      WHERE id=$4`,
+      values: [
+        req.body.make,
+        req.body.model,
+        req.body.description,
+        req.params.id,
+      ],
+    };
+    await db.query(editEquipQuery);
+    await db.query('COMMIT');
+    res.status(201).json({ message: 'Asset updated.' });
+  } catch (err) {
+    await db.query('ROLLBACK');
+    console.error(`There was a problem executing SQL query: ${err}`);
   }
 }
