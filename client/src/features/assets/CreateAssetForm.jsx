@@ -11,21 +11,14 @@ import { addAsset } from '../../services/assetsApi';
 import toast from 'react-hot-toast';
 import FormRow from '../../ui/FormRow';
 
-function CreateAssetForm({ category }) {
-  const { register, handleSubmit, reset } = useForm();
-  const queryClient = useQueryClient();
+function CreateAssetForm({ category, assetToEdit }) {
+  const {id: assetId, ...assetVals} = assetToEdit;
 
-  const { mutate, isLoading: isCreating } = useMutation({
-    mutationFn: addAsset,
-    onSuccess: () => {
-      toast.success('New asset successfully created.');
-      queryClient.invalidateQueries({ queryKey: [category] });
-      reset();
-    },
-    onError: err => {
-      toast.error(err.message);
-    },
-  });
+  // Does the asset exist?
+  const editMode = Boolean(assetId);
+
+  const { register, handleSubmit, reset } = useForm({defaultValues: editMode ? assetVals : {}});
+
 
   function onSubmit(data) {
     mutate(data);
@@ -73,7 +66,7 @@ function CreateAssetForm({ category }) {
           <Button variation="secondary" type="reset">
             Cancel
           </Button>
-          <Button disabled={isCreating}>Add asset</Button>
+          <Button disabled={isCreating}>{editMode ? 'Edit' : 'Create new'}</Button>
         </FormRow>
       </Form>
     );
