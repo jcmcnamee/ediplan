@@ -33,9 +33,12 @@ export async function createEditAsset(data, id, category = '') {
   console.log('Data: ', data);
 
   if (!id) {
+    const newData = {category, ...data};
+    console.log(newData);
     try {
-      const res = await api.put(`api/assets/${category}`, data);
-      return res.data;
+      // const res = await api.put(`api/assets/${category}`, data);
+      const res = await api.put(`api/assets`, newData);
+      return res.newData;
     } catch (err) {
       console.error(`Error adding ${category}: ${err}`);
       throw new Error(`Error adding ${category}`);

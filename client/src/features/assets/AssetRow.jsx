@@ -1,18 +1,17 @@
-import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { LuCheckSquare, LuCopy, LuPencil, LuTrash2 } from 'react-icons/lu';
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { LuCopy, LuPencil, LuTrash2 } from "react-icons/lu";
+import styled from "styled-components";
 
-import RowItem from './RowItem';
-import styled from 'styled-components';
-import CreateAssetForm from './CreateAssetForm';
+import CreateAssetForm from "./CreateAssetForm";
 
-import { useDeleteAsset } from './useDeleteAsset';
-import { useUpdateAsset } from './useUpdateAsset';
-import { useCreateAsset } from './useCreateAsset';
+import { useDeleteAsset } from "./useDeleteAsset";
+import { useCreateAsset } from "./useCreateAsset";
+import RowItem from "./RowItem";
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: ${props => props.$columnTemplate} 1fr;
+  grid-template-columns: ${(props) => props.$columnTemplate} 1fr;
 
   column-gap: 0.5rem;
   align-items: center;
@@ -26,7 +25,7 @@ const TableRow = styled.div`
 
 const FormRow = styled.form`
   display: grid;
-  grid-template-columns: ${props => props.$columnTemplate} 1fr;
+  grid-template-columns: ${(props) => props.$columnTemplate} 1fr;
 
   column-gap: 0.5rem;
   align-items: center;
@@ -43,9 +42,38 @@ function AssetRow({ asset, category, columnTemplate }) {
   const [editMode, setEditMode] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
-  const { id: assetId, make, model, description, price, priceUnit } = asset;
-  const assetVals = [make, model, description, price, priceUnit];
+  // if (category === "equip") {
+  //   const {
+  //     id: assetId,
+  //     assetNum,
+  //     make,
+  //     model,
+  //     description,
+  //     rate,
+  //     rateUnit,
+  //     cost,
+  //   } = asset;
+  //   const assetVals = [assetNum, make, model, description, rate, rateUnit, cost];
+  //   const assetKeys = Object.keys(asset).splice(1);
+  // }
+
+  // if(category == "rooms") {
+  //   const {
+  //     id: assetId,
+  //     name,
+  //     locaton,
+  //     use,
+  //     rate,
+  //     rateUnit,
+  //     cost
+  //   } = asset;
+  // }
+
+  const assetVals = Object.values(asset).splice(1);
   const assetKeys = Object.keys(asset).splice(1);
+  console.log(assetVals);
+  console.log(assetKeys);
+  const assetId = 1;
 
   // Hooks
   const formMethods = useForm();
@@ -70,13 +98,13 @@ function AssetRow({ asset, category, columnTemplate }) {
   // }
 
   function handleDuplicate() {
-    createAsset({
-      make: `Copy of ${make}`,
-      model,
-      description,
-      price,
-      priceUnit,
-    });
+    // createAsset({
+    //   make: `Copy of ${make}`,
+    //   model,
+    //   description,
+    //   price,
+    //   priceUnit,
+    // });
   }
 
   return (
@@ -128,8 +156,8 @@ function AssetRow({ asset, category, columnTemplate }) {
               {/* <button onClick={() => setEditMode(!setEditMode)}><LuPencil /></button> */}
               <button
                 onClick={() => {
-                  console.log('click!');
-                  setShowForm(show => !show);
+                  console.log("click!");
+                  setShowForm((show) => !show);
                 }}
               >
                 <LuPencil />

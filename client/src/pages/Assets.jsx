@@ -1,13 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import CreateAssetForm from '../features/assets/CreateAssetForm';
-import { fetchAssets } from '../services/assetsApi';
-import Tab from '../ui/Tab';
-import TabContainer from '../ui/TabContainer';
-import Toolbar from '../ui/Toolbar';
-import ToolbarButton from '../ui/ToolbarButton';
+import { useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+
+import styled from "styled-components";
+
+import CreateAssetForm from "../features/assets/CreateAssetForm";
+import Tab from "../ui/Tab";
+import TabContainer from "../ui/TabContainer";
+import Toolbar from "../ui/Toolbar";
+import ToolbarButton from "../ui/ToolbarButton";
+import ToolbarPanel from "../ui/ToolbarPanel";
 
 const Container = styled.div`
   display: flex;
@@ -17,16 +18,16 @@ const Container = styled.div`
 
 const tableOptions = {
   equip: {
-    headers: ['Make', 'Model', 'Description', 'Rate', ''],
-    columnTemplate: '1fr 1fr 4fr 0.5fr 0.5fr',
+    headers: ["Asset No.", "Make", "Model", "Description", "Rate", ""],
+    columnTemplate: "0.5fr 1fr 1fr 3fr 0.5fr 0.5fr",
   },
   rooms: {
-    headers: ['Name', 'Location', 'Use', 'Price'],
-    columnTemplate: '1fr 1fr 1fr 0.5fr',
+    headers: ["Name", "Location", "Use", "Rate", "Unit"],
+    columnTemplate: "1fr 1fr 1fr 0.5fr 0.5fr",
   },
   personel: {
-    headers: ['Name', 'Address', 'Phone', 'email', 'rate'],
-    columnTemplate: '1.5fr 2fr 1fr 2fr 1fr',
+    headers: ["Name", "Address", "Phone", "email", "rate"],
+    columnTemplate: "1.5fr 2fr 1fr 2fr 1fr",
   },
 };
 
@@ -34,13 +35,18 @@ function Assets() {
   const [showForm, setShowForm] = useState(false);
 
   const location = useLocation();
-  const currentPath = location.pathname.split('/');
+  const currentPath = location.pathname.split("/");
   const category = currentPath[currentPath.length - 1];
+  console.log(category);
 
   return (
     <Container>
       <Toolbar>
-        <ToolbarButton onClick={() => setShowForm(!showForm)}>+</ToolbarButton>
+        <ToolbarPanel side="left">
+          <ToolbarButton onClick={() => setShowForm((show) => !show)}>
+            +
+          </ToolbarButton>
+        </ToolbarPanel>
       </Toolbar>
       {showForm && <CreateAssetForm category={category} />}
       <div>
