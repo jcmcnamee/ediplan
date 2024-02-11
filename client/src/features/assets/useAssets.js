@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchAssets } from '../../services/assetsApi';
 
-export function useFetchAssets(category) {
+export function useAssets(category) {
   const {
     data: assets,
     error,
-    isLoading,
+    isPending,
   } = useQuery({
     queryKey: [category],
     queryFn: fetchAssets,
   });
 
-  return { assets, error, isLoading };
+  return { assets, error, isPending };
 }

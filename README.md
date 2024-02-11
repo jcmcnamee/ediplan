@@ -182,22 +182,34 @@ Tables:
 
    - Thoroughly test the database design with sample data to ensure that it meets your requirements and performs well.
 
-### Data strctures
+### Express API
 
-Each asset will need to be assigned a type on creation to account for different real world properties. Types will be analagous to predefined groups.
+#### '/assets' route
+
+| Route          | Method | Action                                                           |
+| -------------- | ------ | ---------------------------------------------------------------- |
+| **/equip**     | GET    | Fetch all equipment. Basic level of detail for populating tables |
+| **/rooms**     | GET    | Fetch all rooms. Table detail only.                              |
+| **/personnel** | GET    | Fetch all personnel. Table level detail only                     |
+| **/:id**       | GET    | Fetch individual asset by ID. Get all related information.       |
+| **/equip**     | POST   | Create new equipment asset.                                      |
+| **/rooms**     | POST   | Create new room asset                                            |
+| **/personnel** | POST   | Create new person asset                                          |
+| **/:id**       | PUT    | Update asset with particular ID                                  |
+| **/:id**       | DELETE | Delete asset with particular ID.                                 |
+
+#### Returns
+
+Example returned object from GET request to /asset/:id
 
 ```
-Class Asset {
-    name: '',
-    id: '',
-    type: '',
-    groups: [],
-    isAvailable: true,
-    pricePerHour: 0,
+asset {
+    id: 1,
+    created_date: '',
+    modified_date: '',
 
-    // Methods
-    book(startDate, endDate) {},
-    checkAvailability(startDate, endDate) {},
+    groups: [{}],
+    bookings: [{}],
 }
 
 Class Booking {

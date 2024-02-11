@@ -1,15 +1,15 @@
-import { db } from '../../server.js';
+import { query, getClient } from '../config/db.js';
 
 export const getAllEquipment = async (req, res) => {
   try {
-    const query = `
+    const text = `
     SELECT *
     FROM asset
     INNER JOIN equipment
     ON asset.id = equipment.id
     ORDER BY asset.id ASC
     `;
-    const data = await db.query(query);
+    const data = await query(text);
 
     // Restructure results:
     const result = data.rows.map(row => {
@@ -38,7 +38,7 @@ export const getAllRooms = async (req, res) => {
     INNER JOIN room
     ON asset.id = room.id
     `;
-    const data = await db.query(query);
+    const data = await pool.query(query);
 
     // Manipulate rows
     const result = data.rows.map(row => {
@@ -66,7 +66,7 @@ export const getAllPersonel = async (req, res) => {
     INNER JOIN personel
     ON asset.id = personel.id
     `;
-    const data = await db.query(query);
+    const data = await pool.query(query);
 
     const result = data.rows.map(row => {
       return {
@@ -96,7 +96,7 @@ export const getAllPersonel = async (req, res) => {
 //         `,
 //       values: [req.params.id],
 //     };
-//     await db.query(deleteEquipQuery);
+//     await pool.query(deleteEquipQuery);
 
 //     const deleteAssetQuery = {
 //       text: `
@@ -104,7 +104,7 @@ export const getAllPersonel = async (req, res) => {
 //             WHERE id = $1`,
 //       values: [req.params.id],
 //     };
-//     await db.query(deleteAssetQuery);
+//     await pool.query(deleteAssetQuery);
 
 //     res.status(200).json({ message: 'Rows deleted successfully' });
 //   } catch (err) {
@@ -121,7 +121,7 @@ export async function deleteAsset(req, res) {
       `,
       values: [req.params.id],
     };
-    await db.query(deleteAssetQuery);
+    await pool.query(deleteAssetQuery);
 
     res.status(200).json({ message: 'Rows deleted successfully' });
   } catch (err) {
@@ -132,7 +132,7 @@ export async function deleteAsset(req, res) {
 
 export async function addEquipment(req, res) {
   try {
-    await db.query('BEGIN');
+    await pool.query('BEGIN');
 
     const insertAssetQuery = {
       text: `
@@ -144,7 +144,7 @@ export async function addEquipment(req, res) {
     };
 
     // Insert new asset and get its ID
-    const assetResult = await db.query(insertAssetQuery);
+    const assetResult = await pool.query(insertAssetQuery);
     const assetId = assetResult.rows[0].id;
 
     // Now insert into correct asset category
@@ -156,13 +156,13 @@ export async function addEquipment(req, res) {
       values: [assetId, req.body.make, req.body.model, req.body.description],
     };
 
-    await db.query(insertEquipQuery);
+    await pool.query(insertEquipQuery);
 
-    await db.query('COMMIT');
+    await pool.query('COMMIT');
 
     res.status(201).json({ message: 'Rows added successfully' });
   } catch (err) {
-    await db.query('ROLLBACK');
+    await pool.query('ROLLBACK');
     console.error(`Error executing SQL query: ${err}`);
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -171,7 +171,7 @@ export async function addEquipment(req, res) {
 export async function updateAsset(req, res) {
   console.log(req.body);
   try {
-    await db.query('BEGIN');
+    await pool.query('BEGIN');
 
     const editAssetQuery = {
       text: `
@@ -180,7 +180,7 @@ export async function updateAsset(req, res) {
       WHERE id=$3`,
       values: [req.body.price, req.body.priceUnit, req.params.id],
     };
-    await db.query(editAssetQuery);
+    await pool.query(editAssetQuery);
 
     const editEquipQuery = {
       text: `UPDATE equipment
@@ -193,11 +193,11 @@ export async function updateAsset(req, res) {
         req.params.id,
       ],
     };
-    await db.query(editEquipQuery);
-    await db.query('COMMIT');
+    await pool.query(editEquipQuery);
+    await pool.query('COMMIT');
     res.status(201).json({ message: 'Asset updated.' });
   } catch (err) {
-    await db.query('ROLLBACK');
+    await pool.query('ROLLBACK');
     console.error(`There was a problem executing SQL query: ${err}`);
   }
 }

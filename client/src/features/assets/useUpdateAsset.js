@@ -1,15 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createEditAsset } from '../../services/assetsApi';
 import toast from 'react-hot-toast';
-import { updateAsset as updateAssetApi } from '../../services/assetsApi';
 
 export function useUpdateAsset(category) {
   const queryClient = useQueryClient();
 
-  const { mutate: updateAsset, isLoading: isUpdating } = useMutation({
-    mutationFn: ({ newData, id }) => updateAssetApi(newData, id),
+  const { mutate: updateAsset, isPending: isUpdating } = useMutation({
+    mutationFn: ({ updatedData, id }) => createEditAsset(updatedData, id),
     onSuccess: () => {
       toast.success('New asset successfully updated.');
-      console.log(`Invalidating query: ${category}`);
       queryClient.invalidateQueries({ queryKey: [category] });
     },
     onError: err => {
@@ -17,5 +16,5 @@ export function useUpdateAsset(category) {
     },
   });
 
-  return { updateAsset, isUpdating };
+  return { isUpdating, updateAsset };
 }

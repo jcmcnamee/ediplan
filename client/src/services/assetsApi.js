@@ -27,25 +27,27 @@ export async function deleteAsset(id) {
   }
 }
 
-export async function addAsset(category, data) {
-  try {
-    console.log('addAsset category: ', category);
-    console.log('addAsset data: ', data);
-    const res = await api.put(`api/assets/${category}`, data);
-    return res.data;
-  } catch (err) {
-    console.error(`Error adding ${category}: ${err}`);
-    throw new Error(`Error adding ${category}`);
-  }
-}
+export async function createEditAsset(data, id, category = '') {
+  console.log('Category: ', category);
+  console.log('Id: ', id);
+  console.log('Data: ', data);
 
-export async function updateAsset(newData, id) {
-  try {
-    console.log(newData);
-    const res = await api.patch(`api/assets/${id}`, newData);
-    return res.data;
-  } catch (err) {
-    console.error(`Error updating ${newData.name || newData.model}: ${err}`);
-    throw new Error(`Error updating ${newData.name || newData.model}`);
+  if (!id) {
+    try {
+      const res = await api.put(`api/assets/${category}`, data);
+      return res.data;
+    } catch (err) {
+      console.error(`Error adding ${category}: ${err}`);
+      throw new Error(`Error adding ${category}`);
+    }
+  }
+  if (id) {
+    try {
+      const res = await api.patch(`api/assets/${id}`, data);
+      return res.data;
+    } catch (err) {
+      console.error(`Error updating ${data.name || data.model}: ${err}`);
+      throw new Error(`Error updating ${data.name || data.model}`);
+    }
   }
 }

@@ -5,7 +5,8 @@ import debug from 'debug';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import pg from 'pg';
-import router from './src/router.js';
+import assetRouter from './routes/assetRouter.js';
+import * as db from './config/db.js'
 
 // Configure environment variables
 dotenv.config({ path: './config/.env' });
@@ -14,7 +15,7 @@ dotenv.config({ path: './config/.env' });
 const app = express();
 
 // Server config goes here
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.use(
   cors({
     origin: 'http://localhost:5173', // Replace with your Vite React app's localhost address
@@ -23,15 +24,6 @@ app.use(
   })
 );
 
-// Connect to PostgreSQL
-export const db = new pg.Client({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'ediplan',
-  password: '14563221',
-  port: 5432,
-});
-db.connect();
 
 // Middleware
 app.use(express.json());
@@ -43,7 +35,7 @@ app.get('/', (req, res) => {
 });
 
 // API routes
-app.use('/api/assets', router);
+app.use('/api/assets', assetRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -1,4 +1,4 @@
-import { useFetchAssets } from './useFetchAssets';
+import { useAssets } from './useAssets';
 import { useOutletContext } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -32,12 +32,12 @@ const TableHeader = styled.header`
 
 function AssetTable() {
   const { tableOptions, category } = useOutletContext();
-  const { assets, error, isLoading } = useFetchAssets(category);
+  const { assets, error, isPending } = useAssets(category);
 
   const tableHeaders = tableOptions[category].headers;
   const columnTemplate = tableOptions[category].columnTemplate;
 
-  if (isLoading) return <Spinner />;
+  if (isPending) return <Spinner />;
 
   return (
     <Table role="table">

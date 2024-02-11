@@ -1,5 +1,3 @@
-import styled from 'styled-components';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
 import Input from '../../ui/Input';
@@ -7,32 +5,58 @@ import Form from '../../ui/Form';
 import Button from '../../ui/Button';
 import Textarea from '../../ui/Textarea';
 import Select from '../../ui/Select';
-import { addAsset } from '../../services/assetsApi';
-import toast from 'react-hot-toast';
 import FormRow from '../../ui/FormRow';
 
-function CreateAssetForm({ category, assetToEdit }) {
-  const {id: assetId, ...assetVals} = assetToEdit;
+import { useUpdateAsset } from './useUpdateAsset';
+import { useCreateAsset } from './useCreateAsset';
 
-  // Does the asset exist?
-  const editMode = Boolean(assetId);
+function CreateAssetForm({ category, assetToUpdate = {} }) {
+  const { isUpdating, updateAsset } = useUpdateAsset(category);
+  const { isCreating, createAsset } = useCreateAsset(category);
+  const isWorking = isCreating || isUpdating;
 
-  const { register, handleSubmit, reset } = useForm({defaultValues: editMode ? assetVals : {}});
+  const { id: editId, ...assetVals } = assetToUpdate;
+  const editMode = Boolean(editId);
 
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: editMode ? assetVals : {},
+  });
 
   function onSubmit(data) {
-    mutate(data);
+    if (editMode) {
+      updateAsset(
+        { id: editId, updatedData: { ...data } },
+        { onSuccess: data => reset() }
+      );
+    }
+    if (!editMode) {
+      createAsset(data, { onSuccess: data => reset() });
+    }
+  }
+
+  function onError(errors) {
+    // log errors
   }
 
   if (category === 'equip')
     return (
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <FormRow label="Make">
-          <Input type="text" id="make" {...register('make')} />
+          <Input
+            type="text"
+            id="make"
+            disabled={isWorking}
+            {...register('make')}
+          />
         </FormRow>
 
         <FormRow label="Model">
-          <Input type="text" id="model" {...register('model')} />
+          <Input
+            type="text"
+            id="model"
+            disabled={isWorking}
+            {...register('model')}
+          />
         </FormRow>
 
         <FormRow label="Description">
@@ -40,6 +64,7 @@ function CreateAssetForm({ category, assetToEdit }) {
             type="number"
             id="description"
             defaultValue=""
+            disabled={isWorking}
             {...register('description')}
           />
         </FormRow>
@@ -50,6 +75,7 @@ function CreateAssetForm({ category, assetToEdit }) {
             id="price"
             step="0.01"
             defaultValue={0}
+            disabled={isWorking}
             {...register('price')}
           />
         </FormRow>
@@ -66,7 +92,9 @@ function CreateAssetForm({ category, assetToEdit }) {
           <Button variation="secondary" type="reset">
             Cancel
           </Button>
-          <Button disabled={isCreating}>{editMode ? 'Edit' : 'Create new'}</Button>
+          <Button disabled={isWorking}>
+            {editMode ? 'Edit' : 'Create new'}
+          </Button>
         </FormRow>
       </Form>
     );

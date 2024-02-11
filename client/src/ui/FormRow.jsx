@@ -36,6 +36,7 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
+// NOTE HOW YOU CAN GET CHILDREN PROPS!
 function FormRow({ label, error, children }) {
   return (
     <StyledFormRow>
