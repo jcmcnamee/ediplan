@@ -8,6 +8,8 @@ import CreateAssetForm from "./CreateAssetForm";
 import { useDeleteAsset } from "./useDeleteAsset";
 import { useCreateAsset } from "./useCreateAsset";
 import RowItem from "./RowItem";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const TableRow = styled.div`
   display: grid;
@@ -40,22 +42,18 @@ const FormRow = styled.form`
 function AssetRow({ asset, category, columnTemplate }) {
   // State
   const [editMode, setEditMode] = useState(false);
-  const [showForm, setShowForm] = useState(false);
 
-  // if (category === "equip") {
-  //   const {
-  //     id: assetId,
-  //     assetNum,
-  //     make,
-  //     model,
-  //     description,
-  //     rate,
-  //     rateUnit,
-  //     cost,
-  //   } = asset;
-  //   const assetVals = [assetNum, make, model, description, rate, rateUnit, cost];
-  //   const assetKeys = Object.keys(asset).splice(1);
-  // }
+  const {
+    id: assetId,
+    assetTag,
+    make,
+    model,
+    description,
+    rate,
+    rateUnit,
+  } = asset;
+  const assetVals = [assetTag, make, model, description, rate, rateUnit];
+  const assetKeys = Object.keys(asset).splice(1);
 
   // if(category == "rooms") {
   //   const {
@@ -69,11 +67,9 @@ function AssetRow({ asset, category, columnTemplate }) {
   //   } = asset;
   // }
 
-  const assetVals = Object.values(asset).splice(1);
-  const assetKeys = Object.keys(asset).splice(1);
-  console.log(assetVals);
-  console.log(assetKeys);
-  const assetId = 1;
+  // const assetVals = Object.values(asset).splice(1);
+  // const assetKeys = Object.keys(asset).splice(1);
+  // const assetId = 1;
 
   // Hooks
   const formMethods = useForm();
@@ -98,13 +94,13 @@ function AssetRow({ asset, category, columnTemplate }) {
   // }
 
   function handleDuplicate() {
-    // createAsset({
-    //   make: `Copy of ${make}`,
-    //   model,
-    //   description,
-    //   price,
-    //   priceUnit,
-    // });
+    createAsset({
+      make: `Copy of ${make}`,
+      model,
+      description,
+      rate,
+      rateUnit,
+    });
   }
 
   return (
@@ -153,29 +149,34 @@ function AssetRow({ asset, category, columnTemplate }) {
             ))}
 
             <div>
-              {/* <button onClick={() => setEditMode(!setEditMode)}><LuPencil /></button> */}
-              <button
-                onClick={() => {
-                  console.log("click!");
-                  setShowForm((show) => !show);
-                }}
-              >
-                <LuPencil />
-              </button>
-              <button onClick={handleDuplicate} disabled={isCreating}>
-                <LuCopy />
-              </button>
-              <button
-                onClick={() => deleteAsset(assetId)}
-                disabled={isDeleting}
-              >
-                <LuTrash2 />
-              </button>
+              {/* <button onClick={() => setEditMode(edit => !edit)}><LuPencil /></button> */}
+              <Modal>
+                <Modal.Open opensWindowName="edit">
+                  <button>
+                    <LuPencil />
+                  </button>
+                </Modal.Open>
+                <Modal.Window name="edit">
+                  <CreateAssetForm category={category} assetToUpdate={asset} />
+                </Modal.Window>
+                <button onClick={handleDuplicate} disabled={isCreating}>
+                  <LuCopy />
+                </button>
+                <Modal.Open opensWindowName="delete">
+                  <button>
+                    <LuTrash2 />
+                  </button>
+                </Modal.Open>
+                <Modal.Window name="delete">
+                  <ConfirmDelete
+                    resourceName={"equip"}
+                    disabled={isDeleting}
+                    onConfirm={() => deleteAsset(assetId)}
+                  />
+                </Modal.Window>
+              </Modal>
             </div>
           </TableRow>
-          {showForm && (
-            <CreateAssetForm category={category} assetToUpdate={asset} />
-          )}
         </>
       )}
     </FormProvider>

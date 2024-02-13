@@ -6,7 +6,7 @@ export function useUpdateAsset(category) {
   const queryClient = useQueryClient();
 
   const { mutate: updateAsset, isPending: isUpdating } = useMutation({
-    mutationFn: ({ updatedData, id }) => createEditAsset(updatedData, id),
+    mutationFn: ({ updatedData, id }) => createEditAsset(updatedData, id, category),
     onSuccess: () => {
       toast.success('New asset successfully updated.');
       queryClient.invalidateQueries({ queryKey: [category] });

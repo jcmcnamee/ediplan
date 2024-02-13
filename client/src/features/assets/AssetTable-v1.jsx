@@ -5,7 +5,16 @@ import styled from "styled-components";
 import Spinner from "../../ui/Spinner";
 import AssetRow from "./AssetRow";
 import { useState } from "react";
-import Table from "../../ui/Table";
+
+const Table = styled.div`
+  border: 1px solid var(--color-brand-200);
+
+  font-size: 1.4rem;
+  background-color: var(--color-grey-0);
+  border-radius: 0 0 7px 7px;
+  overflow: hidden;
+  box-shadow: var(--shadow-tab-active);
+`;
 
 const TableHeader = styled.header`
   display: grid;
@@ -32,14 +41,13 @@ function AssetTable() {
   if (isPending) return <Spinner />;
 
   return (
-    <Table columns="0.5fr 1fr 1fr 3fr 0.5fr 0.5fr">
-      <Table.Header>
+    <Table role="table">
+      <TableHeader role="row" $columnTemplate={columnTemplate}>
         {tableHeaders.map((header, index) => (
           <div key={index}>{header}</div>
         ))}
         <div>Controls</div>
-      </Table.Header>
-
+      </TableHeader>
       {assets.map((asset) => (
         <AssetRow
           asset={asset}

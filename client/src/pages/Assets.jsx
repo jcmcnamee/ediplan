@@ -9,12 +9,17 @@ import TabContainer from "../ui/TabContainer";
 import Toolbar from "../ui/Toolbar";
 import ToolbarButton from "../ui/ToolbarButton";
 import ToolbarPanel from "../ui/ToolbarPanel";
+import AddAsset from "../features/assets/AddAsset";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
 `;
+
+const column = new Map();
+
+column.set("assetNum", "Asset No.").set("Make", "make");
 
 const tableOptions = {
   equip: {
@@ -26,14 +31,12 @@ const tableOptions = {
     columnTemplate: "1fr 1fr 1fr 0.5fr 0.5fr",
   },
   personel: {
-    headers: ["Name", "Address", "Phone", "email", "rate"],
+    headers: ["Name", "Address", "Phone", "email", "Rate"],
     columnTemplate: "1.5fr 2fr 1fr 2fr 1fr",
   },
 };
 
 function Assets() {
-  const [showForm, setShowForm] = useState(false);
-
   const location = useLocation();
   const currentPath = location.pathname.split("/");
   const category = currentPath[currentPath.length - 1];
@@ -43,12 +46,10 @@ function Assets() {
     <Container>
       <Toolbar>
         <ToolbarPanel side="left">
-          <ToolbarButton onClick={() => setShowForm((show) => !show)}>
-            +
-          </ToolbarButton>
+          <ToolbarButton>+</ToolbarButton>
+          <AddAsset category={category} />
         </ToolbarPanel>
       </Toolbar>
-      {showForm && <CreateAssetForm category={category} />}
       <div>
         <TabContainer>
           <Tab route="./equip">Assets</Tab>

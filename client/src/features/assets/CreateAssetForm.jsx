@@ -10,7 +10,7 @@ import FormRow from "../../ui/FormRow";
 import { useUpdateAsset } from "./useUpdateAsset";
 import { useCreateAsset } from "./useCreateAsset";
 
-function CreateAssetForm({ category, assetToUpdate = {} }) {
+function CreateAssetForm({ category, assetToUpdate = {}, onCloseModal }) {
   const { isUpdating, updateAsset } = useUpdateAsset(category);
   const { isCreating, createAsset } = useCreateAsset(category);
   const isWorking = isCreating || isUpdating;
@@ -24,11 +24,16 @@ function CreateAssetForm({ category, assetToUpdate = {} }) {
   const { errors } = formState;
 
   function onSubmit(data) {
-    console.log("Data: ", data);
+    console.log("onSubmit data: ", data);
     if (editMode) {
       updateAsset(
         { id: editId, updatedData: { ...data } },
-        { onSuccess: (data) => reset() }
+        {
+          onSuccess: (data) => {
+            reset();
+            onCloseModal?.();
+          },
+        }
       );
     }
     if (!editMode) {
@@ -42,18 +47,17 @@ function CreateAssetForm({ category, assetToUpdate = {} }) {
 
   if (category === "equip")
     return (
-      <Form onSubmit={handleSubmit(onSubmit, onError)}>
-        <FormRow label="Asset No." error={errors?.assetNum?.message}>
+      <Form
+        onSubmit={handleSubmit(onSubmit, onError)}
+        type={onCloseModal ? "modal" : "regular"}
+      >
+        <FormRow label="Asset No." error={errors?.assetTag?.message}>
           <Input
-            type="number"
-            id="assetNum"
+            type="text"
+            id="assetTag"
             disabled={isWorking}
-            {...register("assetNum", {
-              min: {
-                value: 1,
-                message: "Value should be at least 1",
-              },
-            })}
+            defaultValue={null}
+            {...register("assetTag")}
           />
         </FormRow>
 
@@ -128,7 +132,11 @@ function CreateAssetForm({ category, assetToUpdate = {} }) {
 
         <FormRow>
           {/* type is an HTML attribute! */}
-          <Button variation="secondary" type="reset">
+          <Button
+            variation="secondary"
+            type="reset"
+            onClick={() => onCloseModal?.()}
+          >
             Cancel
           </Button>
           <Button disabled={isWorking}>

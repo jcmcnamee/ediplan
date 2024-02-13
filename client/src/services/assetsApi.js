@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 // PUT INTO ENVIRONMENT VARIABLE
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = "http://localhost:3000";
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -22,19 +22,19 @@ export async function deleteAsset(id) {
     const res = await api.delete(`api/assets/${id}`);
     return res.data;
   } catch (err) {
-    console.error('Error deleting data:', err);
+    console.error("Error deleting data:", err);
     throw new Error(`Error deleting asset ${id}`);
   }
 }
 
-export async function createEditAsset(data, id, category = '') {
-  console.log('Category: ', category);
-  console.log('Id: ', id);
-  console.log('Data: ', data);
-
+export async function createEditAsset(data, id, category = "") {
+  const newData = { category, ...data };
   if (!id) {
-    const newData = {category, ...data};
-    console.log(newData);
+    console.log(
+      `assetsApi: Sending PUT request to: api/assets/${id} :`,
+      category,
+      newData
+    );
     try {
       // const res = await api.put(`api/assets/${category}`, data);
       const res = await api.put(`api/assets`, newData);
@@ -46,7 +46,12 @@ export async function createEditAsset(data, id, category = '') {
   }
   if (id) {
     try {
-      const res = await api.patch(`api/assets/${id}`, data);
+      console.log(
+        `assetsApi: Sending PATCH request to: api/assets/${id} :`,
+        category,
+        newData
+      );
+      const res = await api.patch(`api/assets/${id}`, newData);
       return res.data;
     } catch (err) {
       console.error(`Error updating ${data.name || data.model}: ${err}`);
