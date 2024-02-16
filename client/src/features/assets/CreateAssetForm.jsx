@@ -108,10 +108,10 @@ function CreateAssetForm({ category, assetToUpdate = {}, onCloseModal }) {
         </FormRow>
 
         <FormRow label="Unit">
-          <Select type="text" id="rateUnit" {...register("rateUnit")}>
+          <select type="text" id="rateUnit" {...register("rateUnit")}>
             <option>Day</option>
             <option>Hour</option>
-          </Select>
+          </select>
         </FormRow>
 
         <FormRow label="Cost" error={errors?.cost?.message}>

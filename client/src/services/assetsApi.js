@@ -11,6 +11,7 @@ export async function fetchAssets({ queryKey }) {
   const category = queryKey[0];
   try {
     const res = await api.get(`api/assets/${category}`);
+    console.log(res.data);
     return res.data;
   } catch (err) {
     console.error(`Error fetching ${category}: ${err}`);

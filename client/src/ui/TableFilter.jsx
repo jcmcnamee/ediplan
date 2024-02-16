@@ -1,4 +1,4 @@
-function TableColumnOpts() {
+function TableFilter() {
     return (
         <div>
             
@@ -6,4 +6,4 @@ function TableColumnOpts() {
     )
 }
 
-export default TableColumnOpts
+export default TableFilter

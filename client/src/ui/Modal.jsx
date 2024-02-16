@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import { createPortal } from "react-dom";
-import {
-  cloneElement,
-  createContext,
-  useContext,
-  useState,
-} from "react";
+import { cloneElement, createContext, useContext, useState } from "react";
 import { useOutsideClick } from "../hooks/useOutsideClick";
+import { LuX } from "react-icons/lu";
 
 const StyledModalWindow = styled.div`
   position: fixed;
@@ -87,7 +83,7 @@ function Open({ children, opensWindowName }) {
 
 function Window({ children, name }) {
   const { openName, close } = useContext(ModalContext);
-  const ref = useOutsideClick(close)
+  const ref = useOutsideClick(close);
 
   // If name for this window is different from the currently open modal name return null.
   if (name !== openName) return null;
@@ -95,7 +91,9 @@ function Window({ children, name }) {
   return createPortal(
     <Overlay>
       <StyledModalWindow ref={ref}>
-        <Button onClick={close}>X</Button>
+        <Button onClick={close}>
+          <LuX />
+        </Button>
         <div>{cloneElement(children, { onCloseModal: close })}</div>
       </StyledModalWindow>
     </Overlay>,

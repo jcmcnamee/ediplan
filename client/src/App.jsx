@@ -13,10 +13,7 @@ import Login from './pages/Login';
 import AppLayout from './ui/AppLayout';
 import Homepage from './pages/Homepage';
 import Productions from './pages/Productions';
-import Equipment from './pages/Equipment';
 import GlobalStyles from './styles/GlobalStyles';
-import Rooms from './pages/Rooms';
-import People from './pages/People';
 import { Toaster } from 'react-hot-toast';
 import AssetTable from './features/assets/AssetTable';
 

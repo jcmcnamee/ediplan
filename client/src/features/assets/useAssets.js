@@ -3,7 +3,7 @@ import { fetchAssets } from '../../services/assetsApi';
 
 export function useAssets(category) {
   const {
-    data: assets,
+    data,
     error,
     isPending,
   } = useQuery({
@@ -11,5 +11,5 @@ export function useAssets(category) {
     queryFn: fetchAssets,
   });
 
-  return { assets, error, isPending };
+  return { data, error, isPending };
 }
