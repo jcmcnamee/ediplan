@@ -1,6 +1,6 @@
-import { useAssets } from "./useAssets";
 import { useOutletContext, useSearchParams } from "react-router-dom";
-import styled from "styled-components";
+
+import { useAssets } from "./useAssets";
 
 import Spinner from "../../ui/Spinner";
 import AssetRow from "./AssetRow";
@@ -29,25 +29,26 @@ const tableOptions = {
 function AssetTable() {
   const { category } = useOutletContext();
   const { data, error, isPending } = useAssets(category);
-  const assets = data.rowData;
-  const tableMetadata = data.tableMetadata;
-
+  
   const [searchParams] = useSearchParams();
-
+  
   const selectedHeaders = tableOptions[category].headers;
   const columns = tableOptions[category].columnTemplate;
   const values = tableOptions[category].values;
-
+  
   if (isPending) return <Spinner />;
+  
+  const assets = data.rowData;
+  const tableMetadata = data.tableMetadata;
 
-  const filterValue = searchParams.get("rateUnit") || "all";
-
-  let filteredAssets;
-  if (filterValue === "all") filteredAssets = assets;
-  if (filterValue === "daily")
-    filteredAssets = assets.filter((asset) => asset.rateUnit === "Day");
-  if (filterValue === "hourly")
-    filteredAssets = assets.filter((asset) => asset.rateUnit === "Hour");
+  // const filterValue = searchParams.get("rateUnit") || "all";
+  
+  // let filteredAssets;
+  // if (filterValue === "all") filteredAssets = assets;
+  // if (filterValue === "daily")
+  //   filteredAssets = assets.filter((asset) => asset.rateUnit === "Day");
+  // if (filterValue === "hourly")
+  //   filteredAssets = assets.filter((asset) => asset.rateUnit === "Hour");
 
   // const sortBy = searchParams.get("sortBy") || "name-asc";
 
@@ -56,11 +57,11 @@ function AssetTable() {
       <Table columns={columns} headers={selectedHeaders} values={values}>
         <Table.Header
           data={selectedHeaders}
-          render={(headerItem) => <AssetHeaderItem item={headerItem} />}
+          render={(headerItem, i) => <AssetHeaderItem item={headerItem} key={i}/>}
         />
 
         <Table.Body
-          data={filteredAssets}
+          data={assets}
           render={(asset) => <AssetRow asset={asset} key={asset.id} />}
         />
       </Table>

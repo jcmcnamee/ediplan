@@ -1,32 +1,36 @@
-import { query, getClient } from '../config/db.js';
+import * as assetModel from "../models/assetModel.js";
 
 export const getAllEquipment = async (req, res) => {
   try {
-    const text = `
-    SELECT *
-    FROM asset
-    INNER JOIN equipment
-    ON asset.id = equipment.id
-    ORDER BY asset.id ASC
-    `;
-    const data = await query(text);
+    const { data, metadata } = await assetModel.getAllEquip();
+    console.log(data);
 
     // Restructure results:
-    const result = data.rows.map(row => {
+    const rowData = data.map((row) => {
       return {
         id: row.id,
+        created: row.created_date,
+        modified: row.modified_date,
+        tagNumber: row.tag_number,
+        name: row.name,
         make: row.make,
         model: row.model,
         description: row.description,
         price: row.price,
         priceUnit: row.price_unit,
+        cost: row.cost,
       };
     });
+
+    const result = {
+      rowData,
+      metadata,
+    };
 
     res.send(JSON.stringify(result));
   } catch (err) {
     console.error(`Error executing SQL query: `, err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -41,7 +45,7 @@ export const getAllRooms = async (req, res) => {
     const data = await pool.query(query);
 
     // Manipulate rows
-    const result = data.rows.map(row => {
+    const result = data.rows.map((row) => {
       return {
         id: row.id,
         name: row.name,
@@ -54,7 +58,7 @@ export const getAllRooms = async (req, res) => {
     res.send(JSON.stringify(result));
   } catch (err) {
     console.error(`Error executing SQL query: `, err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -68,7 +72,7 @@ export const getAllPersonel = async (req, res) => {
     `;
     const data = await pool.query(query);
 
-    const result = data.rows.map(row => {
+    const result = data.rows.map((row) => {
       return {
         id: row.id,
         name: `${row.first_name} ${row.second_name}`,
@@ -82,7 +86,7 @@ export const getAllPersonel = async (req, res) => {
     res.send(JSON.stringify(result));
   } catch (err) {
     console.error(`Error executing SQL query: `, err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -123,16 +127,16 @@ export async function deleteAsset(req, res) {
     };
     await pool.query(deleteAssetQuery);
 
-    res.status(200).json({ message: 'Rows deleted successfully' });
+    res.status(200).json({ message: "Rows deleted successfully" });
   } catch (err) {
     console.error(`Error executing SQL query: `, err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
 export async function addEquipment(req, res) {
   try {
-    await pool.query('BEGIN');
+    await pool.query("BEGIN");
 
     const insertAssetQuery = {
       text: `
@@ -158,20 +162,20 @@ export async function addEquipment(req, res) {
 
     await pool.query(insertEquipQuery);
 
-    await pool.query('COMMIT');
+    await pool.query("COMMIT");
 
-    res.status(201).json({ message: 'Rows added successfully' });
+    res.status(201).json({ message: "Rows added successfully" });
   } catch (err) {
-    await pool.query('ROLLBACK');
+    await pool.query("ROLLBACK");
     console.error(`Error executing SQL query: ${err}`);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
 export async function updateAsset(req, res) {
   console.log(req.body);
   try {
-    await pool.query('BEGIN');
+    await pool.query("BEGIN");
 
     const editAssetQuery = {
       text: `
@@ -194,10 +198,10 @@ export async function updateAsset(req, res) {
       ],
     };
     await pool.query(editEquipQuery);
-    await pool.query('COMMIT');
-    res.status(201).json({ message: 'Asset updated.' });
+    await pool.query("COMMIT");
+    res.status(201).json({ message: "Asset updated." });
   } catch (err) {
-    await pool.query('ROLLBACK');
+    await pool.query("ROLLBACK");
     console.error(`There was a problem executing SQL query: ${err}`);
   }
 }
