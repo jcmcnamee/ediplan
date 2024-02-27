@@ -11,7 +11,7 @@ import AssetHeaderItem from "./AssetHeaderItem";
 const tableOptions = {
   equip: {
     headers: ["Tag No.", "Make", "Model", "Description", "Rate", "per"],
-    values: ["assetTag", "make", "model", "description", "rate", "rateUnit"],
+    values: ["tagNumber", "make", "model", "description", "rate", "rateUnit"],
     columnTemplate: "0.9fr 1fr 1fr 3fr 0.5fr 0.5fr 0.3fr",
   },
   rooms: {
@@ -29,20 +29,20 @@ const tableOptions = {
 function AssetTable() {
   const { category } = useOutletContext();
   const { data, error, isPending } = useAssets(category);
-  
+
   const [searchParams] = useSearchParams();
-  
+
   const selectedHeaders = tableOptions[category].headers;
   const columns = tableOptions[category].columnTemplate;
   const values = tableOptions[category].values;
-  
+
   if (isPending) return <Spinner />;
-  
+
   const assets = data.rowData;
   const tableMetadata = data.tableMetadata;
 
   // const filterValue = searchParams.get("rateUnit") || "all";
-  
+
   // let filteredAssets;
   // if (filterValue === "all") filteredAssets = assets;
   // if (filterValue === "daily")
@@ -57,7 +57,9 @@ function AssetTable() {
       <Table columns={columns} headers={selectedHeaders} values={values}>
         <Table.Header
           data={selectedHeaders}
-          render={(headerItem, i) => <AssetHeaderItem item={headerItem} key={i}/>}
+          render={(headerItem, i) => (
+            <AssetHeaderItem item={headerItem} key={i} />
+          )}
         />
 
         <Table.Body

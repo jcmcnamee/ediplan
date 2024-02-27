@@ -3,7 +3,6 @@ import * as assetModel from "../models/assetModel.js";
 export const getAllEquipment = async (req, res) => {
   try {
     const { data, metadata } = await assetModel.getAllEquip();
-    console.log(data);
 
     // Restructure results:
     const rowData = data.map((row) => {
@@ -16,8 +15,8 @@ export const getAllEquipment = async (req, res) => {
         make: row.make,
         model: row.model,
         description: row.description,
-        price: row.price,
-        priceUnit: row.price_unit,
+        rate: row.rate,
+        rateUnit: row.rate_unit,
         cost: row.cost,
       };
     });
@@ -36,24 +35,26 @@ export const getAllEquipment = async (req, res) => {
 
 export const getAllRooms = async (req, res) => {
   try {
-    const query = `
-    SELECT *
-    FROM asset
-    INNER JOIN room
-    ON asset.id = room.id
-    `;
-    const data = await pool.query(query);
+    const { data, metadata } = await assetModel.getAllRooms();
 
     // Manipulate rows
-    const result = data.rows.map((row) => {
+    const rowData = data.map((row) => {
       return {
         id: row.id,
+        created: row.created_date,
+        modified: row.modified_date,
         name: row.name,
         location: row.location,
         use: row.use,
-        cost: `£${row.price} p/${row.price_unit}`,
+        rate: row.rate,
+        rateUnit: row.rate_unit,
       };
     });
+
+    const result = {
+      rowData,
+      metadata,
+    };
 
     res.send(JSON.stringify(result));
   } catch (err) {
@@ -64,24 +65,30 @@ export const getAllRooms = async (req, res) => {
 
 export const getAllPersonel = async (req, res) => {
   try {
-    const query = `
-    SELECT *
-    FROM asset
-    INNER JOIN personel
-    ON asset.id = personel.id
-    `;
-    const data = await pool.query(query);
+    const { data, metadata } = await assetModel.getAllPersonnel();
 
-    const result = data.rows.map((row) => {
+    // Manipulate rows
+    const rowData = data.map((row) => {
       return {
         id: row.id,
-        name: `${row.first_name} ${row.second_name}`,
+        created: row.created_date,
+        modified: row.modified_date,
+        name: row.name,
+        role: row.role,
+        firstName: row.first_name,
+        secondName: row.second_name,
         address: row.address,
-        phone: row.phone_number,
+        phoneNum: row.phone_number,
         email: row.email,
-        rate: `£${row.price} p/${row.price_unit}`,
+        rate: row.rate,
+        rateUnit: row.rate_unit,
       };
     });
+
+    const result = {
+      rowData,
+      metadata,
+    };
 
     res.send(JSON.stringify(result));
   } catch (err) {

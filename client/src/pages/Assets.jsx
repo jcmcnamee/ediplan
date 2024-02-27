@@ -19,6 +19,9 @@ function Assets() {
   const location = useLocation();
   const currentPath = location.pathname.split("/");
   const category = currentPath[currentPath.length - 1];
+  console.log("Assets.jsx: ", location);
+
+  // if (category === "assets") return null;
 
   return (
     <Container>

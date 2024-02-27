@@ -134,4 +134,5 @@ CREATE INDEX ON equipment (asset_id);
 
 -- CONSTRAINTS
 
+-- DATA
 

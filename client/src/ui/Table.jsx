@@ -95,8 +95,8 @@ function Header({ data, render }) {
 
 function Row({ data, render, children }) {
   const { columns, values } = useContext(TableContext);
-  console.log(`Chosen values: `, values);
-  console.log("Table.Row before reduce: ", data);
+  // console.log(`Chosen values: `, values);
+  // console.log("Table.Row before reduce: ", data);
 
   const filteredVals = Object.keys(data).reduce((acc, key) => {
     if (values.includes(key)) {
@@ -105,7 +105,7 @@ function Row({ data, render, children }) {
     return acc;
   }, []);
 
-  console.log("Table.Row after reduce: ", filteredVals);
+  // console.log("Table.Row after reduce: ", filteredVals);
 
   const items = filteredVals.map(render);
 

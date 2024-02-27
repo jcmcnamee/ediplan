@@ -33,16 +33,29 @@ export async function getAllEquip() {
 
 export async function getAllRooms() {
   try {
-    const text = `
+    // SQL query to select all columns from the joined table
+    const { rows: data } = await query(`
     SELECT *
     FROM asset
     INNER JOIN room
     ON asset.id = room.id
     ORDER BY asset.id ASC
-    `;
+  `);
 
-    const data = await query(text);
-    return data;
+    // Fetch metadata for the joined table
+    const { rows: metadata } = await query(`
+     SELECT column_name, data_type
+     FROM information_schema.columns
+     WHERE table_name IN ('asset', 'room')
+   `);
+
+    // Package data and metadata in a single object
+    const response = {
+      data,
+      metadata,
+    };
+
+    return response;
   } catch (err) {
     console.error(`Error executing SQL query: `, err);
     throw new Error(err);
@@ -51,16 +64,29 @@ export async function getAllRooms() {
 
 export async function getAllPersonnel() {
   try {
-    const text = `
-    SELECT *
-    FROM asset
-    INNER JOIN person
-    ON asset.id = person.id
-    ORDER BY asset.id ASC
-    `;
+    // SQL query to select all columns from the joined table
+    const { rows: data } = await query(`
+        SELECT *
+        FROM asset
+        INNER JOIN person
+        ON asset.id = person.id
+        ORDER BY asset.id ASC
+      `);
 
-    const data = await query(text);
-    return data;
+    // Fetch metadata for the joined table
+    const { rows: metadata } = await query(`
+         SELECT column_name, data_type
+         FROM information_schema.columns
+         WHERE table_name IN ('asset', 'person')
+       `);
+
+    // Package data and metadata in a single object
+    const response = {
+      data,
+      metadata,
+    };
+
+    return response;
   } catch (err) {
     console.error(`Error executing SQL query: `, err);
     throw new Error(err);
