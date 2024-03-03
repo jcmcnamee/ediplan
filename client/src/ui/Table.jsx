@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import styled from "styled-components";
+import { getAssetVariableName } from "../utils/helpers";
 
 // import Empty from "./Empty";
 
@@ -14,7 +15,7 @@ const StyledTable = styled.div`
 
 const CommonRow = styled.div`
   display: grid;
-  grid-template-columns: ${(props) => props.columns};
+  grid-template-columns: ${(props) => props.$columnWidths};
   column-gap: 1.8rem;
   align-items: center;
   transition: none;
@@ -75,42 +76,43 @@ const Empty = styled.p`
 
 const TableContext = createContext();
 
-function Table({ columns, headers, values, children }) {
+function Table({ displayColumns, columnWidths, rowData, children }) {
   return (
-    <TableContext.Provider value={{ columns, headers, values }}>
+    <TableContext.Provider value={{ displayColumns, columnWidths, rowData }}>
       <StyledTable>{children}</StyledTable>
     </TableContext.Provider>
   );
 }
 
-function Header({ data, render }) {
-  const { columns } = useContext(TableContext);
+function Header({ render }) {
+  const { displayColumns, columnWidths } = useContext(TableContext);
 
   return (
-    <StyledHeader role="row" columns={columns} as="header">
-      {data.map(render)}
+    <StyledHeader role="row" $columnWidths={columnWidths} as="header">
+      {displayColumns.map(render)}
     </StyledHeader>
   );
 }
 
 function Row({ data, render, children }) {
-  const { columns, values } = useContext(TableContext);
-  // console.log(`Chosen values: `, values);
-  // console.log("Table.Row before reduce: ", data);
+  const { displayColumns, columnWidths } = useContext(TableContext);
+  const columns = displayColumns.map((column) => getAssetVariableName(column));
+  // console.log(`Chosen values: `, columns);
+  console.log("Table.Row before reduce: ", data);
 
   const filteredVals = Object.keys(data).reduce((acc, key) => {
-    if (values.includes(key)) {
+    if (columns.includes(key)) {
       acc.push(data[key]);
     }
     return acc;
-  }, []);
+  }, []); // This no longer works as was designed to work on a single row object
 
   // console.log("Table.Row after reduce: ", filteredVals);
 
   const items = filteredVals.map(render);
 
   return (
-    <StyledRow role="row" columns={columns}>
+    <StyledRow role="row" $columnWidths={columnWidths}>
       {items}
       {children}
     </StyledRow>
@@ -125,16 +127,11 @@ function Item({ children }) {
   return <StyledRowItem>{children}</StyledRowItem>;
 }
 
-function Body({ data, render }) {
-  if (!data.length) return <Empty>No data to display</Empty>;
-  return <StyledBody>{data.map(render)}</StyledBody>;
-}
+function Body({ render }) {
+  const { rowData } = useContext(TableContext);
 
-function Filter() {
-  const {values} = useContext(TableContext);
-
-  return 
-
+  if (!rowData.length) return <Empty>No data to display</Empty>;
+  return <StyledBody>{rowData.map(render)}</StyledBody>;
 }
 
 Table.Header = Header;

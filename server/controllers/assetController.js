@@ -1,8 +1,9 @@
 import * as assetModel from "../models/assetModel.js";
+import { toCamelCase } from "../utils/toCamelCase.js";
 
 export const getAllEquipment = async (req, res) => {
   try {
-    const { data, metadata } = await assetModel.getAllEquip();
+    const { data, metadata: tableMetadata } = await assetModel.getAllEquip();
 
     // Restructure results:
     const rowData = data.map((row) => {
@@ -21,10 +22,14 @@ export const getAllEquipment = async (req, res) => {
       };
     });
 
+    const metadata = toCamelCase(tableMetadata, true);
+
     const result = {
       rowData,
       metadata,
     };
+
+    console.log(result.rowData);
 
     res.send(JSON.stringify(result));
   } catch (err) {
@@ -35,7 +40,7 @@ export const getAllEquipment = async (req, res) => {
 
 export const getAllRooms = async (req, res) => {
   try {
-    const { data, metadata } = await assetModel.getAllRooms();
+    const { data, metadata: rowMetadata } = await assetModel.getAllRooms();
 
     // Manipulate rows
     const rowData = data.map((row) => {
@@ -50,6 +55,8 @@ export const getAllRooms = async (req, res) => {
         rateUnit: row.rate_unit,
       };
     });
+
+    const metadata = toCamelCase(rowMetadata);
 
     const result = {
       rowData,

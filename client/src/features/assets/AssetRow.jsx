@@ -25,14 +25,14 @@ function AssetRow({ asset }) {
   // } = asset;
   // const assetVals = [assetTag, make, model, description, rate, rateUnit];
 
-  const {id: assetId, ...assetVals} = asset;
+  const { id: assetId, ...assetVals } = asset;
 
   // Hooks
   const { deleteAsset, isDeleting } = useDeleteAsset(category);
   const { isCreating, createAsset } = useCreateAsset(category);
 
   function handleDuplicate() {
-    createAsset({...asset});
+    createAsset({ ...asset });
   }
   // function handleDuplicate() {
   //   createAsset({
@@ -47,10 +47,7 @@ function AssetRow({ asset }) {
 
   // NEED TO FIGURE OUT HOW I ACCESS THE HEADERS DATA HERE TO FILTER THE ROW ITEMS FFS
   return (
-    <Table.Row
-      data={assetVals}
-      render={(value, i) => <RowItem item={value} key={i} />}
-    >
+    <Table.Row data={asset} render={(value, i) => <RowItem item={value} key={i} />}>
       <div>
         <Modal>
           <Menus.Menu>

@@ -1,0 +1,2 @@
+id,created_date,modified_date,start_date,end_date,production_id,location_id,provisional,remote,notes
+1,2024-03-03 08:00:00,2024-03-03 08:00:00,2024-03-03 09:00:00,2024-04-03 18:00:00,,,false,false,"first ever booking"

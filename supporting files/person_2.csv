@@ -1,0 +1,16 @@
+id,asset_id,job_title,address,phone_number,email,is_staff
+1,71,Offline editor,"23 Maple Street, Sheffield, S1 2AB",07700 123456,jeremy.cutnice@tvfunmail.com,false
+2,72,Offline editor,"45 Oak Avenue, Manchester, M2 3CD",07701 234567,melanie.editswel@postprolol.com,false
+3,73,Offline editor,"12 Willow Crescent, Birmingham, B3 4EF",07702 345678,daphne.showmaker@tvantics.org,false
+4,74,Offline editor,"8 Birch Lane, Newcastle, NE4 5FG",07703 456789,percival.ts@televisingtonsmythe.net,false
+5,75,Offline editor,"36 Elm Close, Liverpool, L5 6GH",07704 567890,ave.programly@tvgeekery.co.uk,false
+6,76,Offline editor,"15 Pine Road, Leeds, LS6 7IJ",07705 678901,samantha.screenbright@mediamirth.com,false
+7,77,Online editor,"72 Cedar Terrace, Bristol, BS7 8JK",07706 789012,quentin.channelcraft@broadcastmania.tv,false
+8,78,Offline editor,"19 Redwood Lane, Nottingham, NG8 9KL",07707 890123,fiona.flickersworth@whimsybroadcasts.com,false
+9,79,Dubbing mixer,"54 Spruce Avenue, Cardiff, CF9 0MN",07708 901234,winston.viewington@visionaryshows.org,false
+10,80,Offline editor,"27 Fir Street, Glasgow, G10 1OP",07709 012345,Ppenelope.broadcaston@tvjoyful.com,false
+11,81,Offline editor,"63 Aspen Grove, Southampton, SO11 2PQ",07710 123456,reginald.pixelmaster@pixelentertainment.net,false
+12,82,Online editor,"31 Sycamore Drive, Belfast, BT12 3QR",07711 234567,tabitha.dramaflick@thespontv.com,false
+13,83,Colourist,"40 Chestnut Road, Oxford, OX4 4ST",07712 345678,oliver.visionaire@insightfulbroadcasts.co.uk,false
+14,84,Offline editor,"14 Juniper Close, Cambridge, CB5 5UV",07713 456789,priscilla.reelington@reelwonder.tv,false
+15,85,Dubbing mixer,"22 Laurel Court, Edinburgh, EH6 6WX",07714 567890,chester.spectaculo@specialeffects.tv,false

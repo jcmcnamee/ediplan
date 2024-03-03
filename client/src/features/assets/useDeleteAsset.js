@@ -1,7 +1,6 @@
-import { useQueryClient, useMutation } from '@tanstack/react-query';
-import { deleteAsset as deleteAssetApi } from '../../services/assetsApi';
-import toast from 'react-hot-toast';
-
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { deleteAsset as deleteAssetApi } from "../../services/apiAssets";
+import toast from "react-hot-toast";
 
 export function useDeleteAsset(category) {
   const queryClient = useQueryClient();
@@ -12,7 +11,7 @@ export function useDeleteAsset(category) {
 
       queryClient.invalidateQueries({ queryKey: [category] });
     },
-    onError: err => toast.error(err.message),
+    onError: (err) => toast.error(err.message),
   });
 
   return { deleteAsset, isDeleting };

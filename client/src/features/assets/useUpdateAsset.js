@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createEditAsset } from '../../services/assetsApi';
+import { createEditAsset } from '../../services/apiAssets';
 import toast from 'react-hot-toast';
 
 export function useUpdateAsset(category) {
