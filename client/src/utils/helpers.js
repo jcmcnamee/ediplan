@@ -1,8 +1,8 @@
 const assetFieldMap = new Map([
-  ["id", "Id"],
+  ["id", "ID"],
   ["createdDate", "Created"],
   ["modifiedDate", "Modified"],
-  ["assetId", "Asset Id"],
+  ["assetId", "Asset ID"],
   ["tagNumber", "Tag No."],
   ["rateUnit", "Unit"],
   ["firstName", "First Name"],
@@ -10,9 +10,28 @@ const assetFieldMap = new Map([
   ["phoneNum", "Phone"],
 ]);
 
-const reverseFieldMap = new Map();
+const reverseAssetFieldMap = new Map();
 assetFieldMap.forEach((value, key) => {
-  reverseFieldMap.set(value, key);
+  reverseAssetFieldMap.set(value, key);
+});
+
+const bookingFieldMap = new Map([
+  ["id", "ID"],
+  ["createdDate", "Created"],
+  ["modifiedDate", "Modified"],
+  ["startDate", "Start"],
+  ["endDate", "End"],
+  ["productionID", "Prod ID"],
+  ["productionName", "Production"],
+  ["locationId", "Location ID"],
+  ["locationName", "Location"],
+  ["isProvisional", "Confirmed"],
+  ["isRemote", "Remote"],
+]);
+
+const reverseBookingFieldMap = new Map();
+bookingFieldMap.forEach((value, key) => {
+  reverseBookingFieldMap.set(value, key);
 });
 
 function capitaliseFirstLetter(str) {
@@ -39,8 +58,25 @@ export function getAssetFriendlyName(fieldName) {
 
 export function getAssetVariableName(friendlyName) {
   // Check if the friendly name exists in the reverse mapping
-  if (reverseFieldMap.has(friendlyName)) {
-    return reverseFieldMap.get(friendlyName);
+  if (reverseAssetFieldMap.has(friendlyName)) {
+    return reverseAssetFieldMap.get(friendlyName);
+  } else {
+    // If the friendly name is not found in the reverse mapping, return the original friendly name
+    return decapitaliseFirstLetter(friendlyName);
+  }
+}
+export function getBookingFriendlyName(fieldName) {
+  if (bookingFieldMap.has(fieldName)) {
+    return bookingFieldMap.get(fieldName);
+  } else {
+    return capitaliseFirstLetter(fieldName);
+  }
+}
+
+export function getBookingVariableName(friendlyName) {
+  // Check if the friendly name exists in the reverse mapping
+  if (reverseBookingFieldMap.has(friendlyName)) {
+    return reverseBookingFieldMap.get(friendlyName);
   } else {
     // If the friendly name is not found in the reverse mapping, return the original friendly name
     return decapitaliseFirstLetter(friendlyName);

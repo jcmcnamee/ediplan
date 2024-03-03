@@ -1,12 +1,13 @@
-import { query, getClient } from "../config/db.js";
+import { query } from "../config/db.js";
 
 export async function getAllBookings() {
   try {
     const { rows: data } = await query(`
-            SELECT booking.*, production.name, location.description,
+            SELECT booking.*, production.prod_name, location.description AS loc_description
             FROM booking
-            INNER JOIN production ON booking.production_id = production.id
-            INNER JOIN location ON booking.location_id = location.id;
+            LEFT JOIN production ON booking.production_id = production.id
+            LEFT JOIN location ON booking.location_id = location.id
+            ORDER BY start_date ASC
         `);
 
     const { rows: metadata } = await query(`

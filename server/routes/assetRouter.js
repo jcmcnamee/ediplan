@@ -9,7 +9,6 @@ import {
 } from '../controllers/assetController.js';
 
 const assetRouter = express.Router();
-const bookingRouter = express.Router();
 
 assetRouter.get('/equip', getAllEquipment);
 assetRouter.patch('/:id', updateAsset);

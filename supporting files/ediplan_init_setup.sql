@@ -24,6 +24,7 @@ CREATE TABLE booking_group_map (
 
 CREATE TABLE location (
   id SERIAL PRIMARY KEY,
+  name VARCHAR(75),
   description VARCHAR(255)
 );
 
@@ -136,20 +137,24 @@ CREATE INDEX ON equipment (asset_id);
 
 -- IMPORT DATA
 COPY asset (id, created_date, modified_date, category, asset_name, rate, rate_unit, asset_value)
-FROM 'C:\Users\jcmcn\repo\ediplan\supporting files\asset_List_3.csv' DELIMITER ',' CSV HEADER;
+FROM 'C:\Users\jcmcn\repo\ediplan\supporting files\asset.csv' DELIMITER ',' CSV HEADER;
 
 -- Update the created_date and modified_date columns with the current TIMESTAMP
 UPDATE asset
 SET created_date = NOW(), modified_date = NOW();
 
 COPY equipment (id,asset_id, tag_number, make, model, description)
-FROM 'C:\Users\jcmcn\repo\ediplan\supporting files\equipment_2.csv' DELIMITER ',' CSV HEADER;
+FROM 'C:\Users\jcmcn\repo\ediplan\supporting files\equipment.csv' DELIMITER ',' CSV HEADER;
 
 COPY room (id, asset_id, use, notes)
-FROM 'C:\Users\jcmcn\repo\ediplan\supporting files\room_2.csv' DELIMITER ',' CSV HEADER;
+FROM 'C:\Users\jcmcn\repo\ediplan\supporting files\room.csv' DELIMITER ',' CSV HEADER;
 
 COPY person (id, asset_id, job_title, address, phone_number, email, is_staff)
-FROM 'C:\Users\jcmcn\repo\ediplan\supporting files\person_2.csv' DELIMITER ',' CSV HEADER;
+FROM 'C:\Users\jcmcn\repo\ediplan\supporting files\person.csv' DELIMITER ',' CSV HEADER;
+
+-- CONTACT INFORMATION MAY BE REMOVED TO BE REPLACED BY "PERSON" ASSET.
+COPY production (id, prod_name, contact, contact_email, contact_number, notes)
+FROM 'C:\Users\jcmcn\repo\ediplan\supporting files\production.csv' DELIMITER ',' CSV HEADER;
 
 COPY booking (id, created_date, modified_date, start_date, end_date, production_id, location_id, provisional, remote, notes)
 FROM 'C:\Users\jcmcn\repo\ediplan\supporting files\booking.csv' DELIMITER ',' CSV HEADER;

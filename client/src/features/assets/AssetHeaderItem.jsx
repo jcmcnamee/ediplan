@@ -4,13 +4,6 @@ import { useSearchParams } from "react-router-dom";
 
 import Table from "../../ui/Table";
 
-// const StyledHeaderItem = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   border-right: 1px solid var(--color-grey-200);
-
-// `;
-
 const Button = styled.button``;
 
 function AssetHeaderItem({ item }) {
@@ -28,12 +21,6 @@ function AssetHeaderItem({ item }) {
       </Button>
     </Table.HeaderItem>
 
-    // <StyledHeaderItem>
-    //   <div>{item}</div>
-    //   <Button>
-    //     <LuArrowDownUp onClick={handleClick}/>
-    //   </Button>
-    // </StyledHeaderItem>
   );
 }
 

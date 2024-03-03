@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import styled from "styled-components";
-import { getAssetVariableName } from "../utils/helpers";
+import { getAssetVariableName, getBookingVariableName } from "../utils/helpers";
 
 // import Empty from "./Empty";
 
@@ -96,8 +96,10 @@ function Header({ render }) {
 
 function Row({ data, render, children }) {
   const { displayColumns, columnWidths } = useContext(TableContext);
-  const columns = displayColumns.map((column) => getAssetVariableName(column));
-  // console.log(`Chosen values: `, columns);
+  const columns = displayColumns.map((column) =>
+    getBookingVariableName(column)
+  );
+  console.log(`Chosen values: `, columns);
   console.log("Table.Row before reduce: ", data);
 
   const filteredVals = Object.keys(data).reduce((acc, key) => {
@@ -107,7 +109,7 @@ function Row({ data, render, children }) {
     return acc;
   }, []); // This no longer works as was designed to work on a single row object
 
-  // console.log("Table.Row after reduce: ", filteredVals);
+  console.log("Table.Row after reduce: ", filteredVals);
 
   const items = filteredVals.map(render);
 

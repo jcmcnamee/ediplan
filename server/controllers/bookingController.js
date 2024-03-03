@@ -7,6 +7,17 @@ export const getAllBookings = async (req, res) => {
     const rowData = data.map((row) => {
       return {
         id: row.id,
+        productionName: row.prod_name,
+        created: row.created_date,
+        modified: row.modified_date,
+        startDate: row.start_date,
+        endDate: row.end_date,
+        productionId: row.production_id,
+        locationId: row.location_id,
+        locationName: row.locationName, // Might need "??"
+        isProvisional: row.provisional,
+        isRemote: row.remote,
+        notes: row.notes,
       };
     });
 
