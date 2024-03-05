@@ -78,7 +78,7 @@ const TableContext = createContext();
 
 function Table({ displayColumns, columnWidths, rowData, children }) {
   return (
-    <TableContext.Provider value={{ displayColumns, columnWidths, rowData }}>
+    <TableContext.Provider value={{ displayColumns, columnWidths }}>
       <StyledTable>{children}</StyledTable>
     </TableContext.Provider>
   );
@@ -107,7 +107,7 @@ function Row({ data, render, children }) {
       acc.push(data[key]);
     }
     return acc;
-  }, []); // This no longer works as was designed to work on a single row object
+  }, []);
 
   console.log("Table.Row after reduce: ", filteredVals);
 
@@ -129,11 +129,10 @@ function Item({ children }) {
   return <StyledRowItem>{children}</StyledRowItem>;
 }
 
-function Body({ render }) {
-  const { rowData } = useContext(TableContext);
+function Body({ data, render }) {
 
-  if (!rowData.length) return <Empty>No data to display</Empty>;
-  return <StyledBody>{rowData.map(render)}</StyledBody>;
+  if (!data.length) return <Empty>No data to display</Empty>;
+  return <StyledBody>{data.map(render)}</StyledBody>;
 }
 
 Table.Header = Header;

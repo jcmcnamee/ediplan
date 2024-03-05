@@ -9,7 +9,7 @@ import Menus from "../../ui/Menus";
 import AssetHeaderItem from "./AssetHeaderItem";
 
 function AssetTable() {
-  const { category } = useOutletContext();
+  const { category, data } = useOutletContext();
   const [searchParams] = useSearchParams();
 
   // const filterValue = searchParams.get("rateUnit") || "all";
@@ -32,6 +32,7 @@ function AssetTable() {
       />
 
       <Table.Body
+        data={data}
         render={(asset) => <AssetRow asset={asset} key={asset.id} />}
       />
     </Menus>

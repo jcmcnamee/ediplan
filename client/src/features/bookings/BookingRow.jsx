@@ -5,7 +5,7 @@ function BookingRow({ booking }) {
   return (
     <Table.Row
       data={booking}
-      render={(value, i) => <RowItem item={value} key={i} />}
+      render={(value, i) => <RowItem data={value} key={i} />}
     >
       <div>Menu</div>
     </Table.Row>

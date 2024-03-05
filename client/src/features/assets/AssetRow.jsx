@@ -47,7 +47,10 @@ function AssetRow({ asset }) {
 
   // NEED TO FIGURE OUT HOW I ACCESS THE HEADERS DATA HERE TO FILTER THE ROW ITEMS FFS
   return (
-    <Table.Row data={asset} render={(value, i) => <RowItem item={value} key={i} />}>
+    <Table.Row
+      data={asset}
+      render={(value, i) => <RowItem primaryVal={value} key={i} />}
+    >
       <div>
         <Modal>
           <Menus.Menu>

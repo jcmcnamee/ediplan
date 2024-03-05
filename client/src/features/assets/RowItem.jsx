@@ -1,17 +1,16 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledRowItem = styled.div`
-  font-size: var(--table-font-size);
-  font-weight: var(--table-font-weight);
   border-right: 1px solid var(--color-grey-200);
   overflow-wrap: anywhere;
+  font-weight: var(--table-font-weight);
+  font-size: var(--table-font-size);
 `;
 
-function RowItem({ item }) {
-
+function RowItem({ data }) {
   return (
-    <StyledRowItem>{item}</StyledRowItem>
-  ) 
+    <StyledRowItem>{data}</StyledRowItem>
+  );
 }
 
 export default RowItem;

@@ -56,13 +56,13 @@ function Assets() {
   // const columnWidths = tableOptions["equip"].columnTemplate;
   // const values = tableOptions[category].values;
 
-  const { data, error, isPending } = useAssets(category);
+  const { data: assets, error, isPending } = useAssets(category);
 
   if (error) return <div>{error}</div>;
-  if (isPending) return <Spinner />;
+  if (isPending || !category) return <Spinner />;
 
-  const rowData = data.rowData;
-  const tableMetadata = data.metadata;
+  const data = assets.rowData;
+  const tableMetadata = assets.metadata;
 
   // Update column selector tool
   const headers = tableMetadata.map((column) =>
@@ -74,11 +74,7 @@ function Assets() {
   const columnWidths = tableOptions[category].columnTemplate;
 
   return (
-    <Table
-      displayColumns={displayColumns}
-      columnWidths={columnWidths}
-      rowData={rowData}
-    >
+    <Table displayColumns={displayColumns} columnWidths={columnWidths}>
       <Container>
         <Toolbar>
           <ToolbarPanel side="left">
@@ -93,7 +89,7 @@ function Assets() {
             <Tab route="./personel">People</Tab>
           </TabContainer>
           {/* This renders an AssetTable componenet on each route */}
-          <Outlet context={{ category }} />
+          <Outlet context={{ category, data }} />
         </div>
       </Container>
     </Table>
