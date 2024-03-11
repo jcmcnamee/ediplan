@@ -1,12 +1,12 @@
 import Table from "../../ui/Table";
 import RowItem from "../assets/RowItem";
 
-function BookingRow({ booking }) {
+function BookingRow({ booking: {
+  id: bookingId,
+  created, startDate, endDate
+} }) {
   return (
-    <Table.Row
-      data={booking}
-      render={(value, i) => <RowItem data={value} key={i} />}
-    >
+    <Table.Row role="row">
       <div>Menu</div>
     </Table.Row>
   );

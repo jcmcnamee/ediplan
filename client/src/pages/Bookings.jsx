@@ -1,5 +1,6 @@
 import BookingTable from "../features/bookings/BookingTable";
 
+
 function Bookings() {
   return (
     <>
