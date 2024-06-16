@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
 // PUT INTO ENVIRONMENT VARIABLE
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = 'https://localhost:7080';
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -22,12 +22,12 @@ export async function deleteAsset(id) {
     const res = await api.delete(`api/assets/${id}`);
     return res.data;
   } catch (err) {
-    console.error("Error deleting data:", err);
+    console.error('Error deleting data:', err);
     throw new Error(`Error deleting asset ${id}`);
   }
 }
 
-export async function createEditAsset(data, id, category = "") {
+export async function createEditAsset(data, id, category = '') {
   const newData = { category, ...data };
   if (!id) {
     console.log(

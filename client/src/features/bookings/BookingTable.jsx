@@ -1,17 +1,23 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   useReactTable,
-  createColumnHelper,
-  flexRender,
   getCoreRowModel,
-} from "@tanstack/react-table";
-import { format, parse } from "date-fns";
+  getFacetedMinMaxValues,
+  getFacetedUniqueValues,
+} from '@tanstack/react-table';
 
-import { useBookings } from "./useBookings";
+import { useBookings } from './useBookings';
 
-import Spinner from "../../ui/Spinner";
-import Menus from "../../ui/Menus";
-import Empty from "../../ui/Empty";
+import Spinner from '../../ui/Spinner';
+import Menus from '../../ui/Menus';
+import Empty from '../../ui/Empty';
+import TanstackTable from '../../ui/TanstackTable';
+import { useCallback, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { bookingColumnDefinitions } from './bookingColumnDefinitions';
+import Toolbar from '../../ui/Toolbar';
+import FilterMenu from '../../ui/Table/FilterMenu';
+import Filter from '../../ui/Filter';
 
 const Container = styled.div`
   display: flex;
@@ -19,126 +25,37 @@ const Container = styled.div`
   gap: 20px;
 `;
 
-const columnHelper = createColumnHelper();
-
-const defColumns = [
-  columnHelper.accessor("id", {
-    header: "ID",
-  }),
-  columnHelper.accessor("created", {
-    header: "Created",
-    cell: (props) => {
-      console.log(props.getValue());
-      return format(
-        parse(props.getValue(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", new Date()),
-        "E do MMM yyyy"
-      );
-    },
-  }),
-  columnHelper.accessor("modified", {
-    header: "Modified",
-    cell: (props) => {
-      return format(
-        parse(props.getValue(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", new Date()),
-        "E do MMM yyyy"
-      );
-    },
-  }),
-  columnHelper.accessor("startDate", {
-    header: "Start",
-    cell: (props) => {
-      return format(
-        parse(props.getValue(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", new Date()),
-        "E do MMM yyyy"
-      );
-    },
-  }),
-  columnHelper.accessor("endDate", {
-    header: "End",
-    cell: (props) => {
-      return format(
-        parse(props.getValue(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", new Date()),
-        "E do MMM yyyy"
-      );
-    },
-  }),
-  columnHelper.accessor("productionId", {
-    header: "Prod ID",
-  }),
-  columnHelper.accessor("locationId", {
-    header: "Location",
-  }),
-  columnHelper.accessor("isProvisional", {
-    header: "Confirmed",
-  }),
-  columnHelper.accessor("isRemote", {
-    header: "Remote",
-  }),
-  columnHelper.accessor("notes", {
-    header: "Notes",
-  }),
-  columnHelper.display({
-    header: "Menus",
-    cell: "menu",
-  }),
-];
-
 function BookingTable() {
-  const { bookings, error, isPending } = useBookings();
+  // const [columnFilters, setColumnFilters] = useState([]);
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // const [sorting, setSorting] = useState([
+  //   {
+  //     id: 'startDate',
+  //     desc: true,
+  //   },
+  // ]);
 
-  const table = useReactTable({
-    data: bookings?.rowData ?? [],
-    columns: defColumns,
-    initialState: {
-      columnVisibility: {
-        created: false,
-        modified: false,
-      },
-    },
-    getCoreRowModel: getCoreRowModel(),
-  });
+  const { bookings, error, isPending } = useBookings();
 
   if (error) return <div>{error}</div>;
   if (isPending) return <Spinner />;
 
-  const data = bookings.rowData;
+  const data = bookings;
 
   if (!data.length) return <Empty resource="bookings" />;
-
-  console.log(table);
 
   return (
     <Container>
       <Menus>
-        <table>
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <TanstackTable
+          data={bookings}
+          columnDefinitions={bookingColumnDefinitions}>
+          <TanstackTable.Wrapper>
+            <TanstackTable.Header />
+            <TanstackTable.Body />
+          </TanstackTable.Wrapper>
+          {/* <TanstackTable.Pagination /> */}
+        </TanstackTable>
       </Menus>
     </Container>
   );

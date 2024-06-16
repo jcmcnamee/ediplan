@@ -4,7 +4,6 @@ import { addYears, differenceInDays, subDays } from 'date-fns';
 import styled from 'styled-components';
 import TimelineTrackContainer from './TimelineTrackContainer';
 import Toolbar from '../../ui/Toolbar';
-import ToolbarButton from '../../ui/ToolbarButton';
 import { useTimeline } from './TimelineContext';
 
 const StyledContainer = styled.div`
@@ -39,7 +38,7 @@ function TimelineWindow({ booking, currentDate }) {
   return (
     <StyledContainer>
       TimelineWindow
-      <Toolbar>
+      {/* <Toolbar>
         <ToolbarButton
           $size="single"
           $variation="primary"
@@ -55,6 +54,18 @@ function TimelineWindow({ booking, currentDate }) {
           <span>+</span>
         </ToolbarButton>
         <span>{unitWidth}</span>
+      </Toolbar> */}
+      <Toolbar>
+        <Toolbar.Panel side="left">
+          <Toolbar.Button $variation="secondary" onClick={handleDecrement}>
+            <span>-</span>
+          </Toolbar.Button>
+        </Toolbar.Panel>
+        <Toolbar.Panel side="right">
+          <Toolbar.Button $variation="secondary" onClick={handleIncrement}>
+            <span>+</span>
+          </Toolbar.Button>
+        </Toolbar.Panel>
       </Toolbar>
       <TimelineTrackContainer booking={booking} />
     </StyledContainer>

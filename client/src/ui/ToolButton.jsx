@@ -1,33 +1,7 @@
+/* eslint-disable no-unused-vars */
 import styled, { css } from 'styled-components';
 
-const StyledToolbar = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.2rem;
-  height: fit-content;
-  border: 1px solid var(--color-grey-100);
-  padding: 0.2rem 0;
-  box-shadow: var(--shadow-sm);
-`;
-
-const StyledToolbarPanel = styled.div`
-  display: flex;
-
-  ${props =>
-    props.side === 'left' &&
-    css`
-      grid-column: 1;
-    `}
-
-  ${props =>
-    props.side === 'right' &&
-    css`
-      grid-column: 2;
-      justify-content: flex-end;
-    `}
-`;
-
-const buttonSizes = {
+const sizes = {
   small: css`
     font-size: 1.2rem;
     padding: 0.4rem 0.8rem;
@@ -47,7 +21,7 @@ const buttonSizes = {
   `,
 };
 
-const buttonVariations = {
+const variations = {
   primary: css`
     color: var(--color-grey-600);
     background: var(--color-grey-0);
@@ -124,29 +98,18 @@ const buttonVariations = {
   `,
 };
 
-const Button = styled.button`
+const ToolButton = styled.button`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
 
-  ${props => buttonSizes[props.$size]}
-  ${props => buttonVariations[props.$variation]}
+  ${props => sizes[props.$size]}
+  ${props => variations[props.$variation]}
 `;
 
-Button.defaultProps = {
+ToolButton.defaultProps = {
   $variation: 'primary',
   $size: 'medium',
 };
 
-function Toolbar({ children }) {
-  return <StyledToolbar>{children}</StyledToolbar>;
-}
-
-function Panel({ side, children }) {
-  return <StyledToolbarPanel side={side}>{children}</StyledToolbarPanel>;
-}
-
-Toolbar.Panel = Panel;
-Toolbar.Button = Button;
-
-export default Toolbar;
+export default ToolButton;

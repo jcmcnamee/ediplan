@@ -104,6 +104,7 @@ function Toggle({ id }) {
   );
 }
 
+// Returns a <list> with postional paramters
 function List({ id, children }) {
   const { openId, position, close } = useContext(MenusContext);
   const ref = useOutsideClick(close);
@@ -118,6 +119,10 @@ function List({ id, children }) {
   );
 }
 
+// Button for selecting options
+// children: option description
+// icon: option icon
+// onClick: event
 function Button({ children, icon, onClick }) {
   const { close } = useContext(MenusContext);
 

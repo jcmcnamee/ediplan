@@ -1,20 +1,24 @@
-import axios from "axios";
+import axios from 'axios';
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = 'https://localhost:7080';
 
 const api = axios.create({
   baseURL: BASE_URL,
 });
 
-export async function getBookings({ queryKey }) {
+export async function getBookings({ searchParams }) {
   try {
-    const res = await api.get(`api/bookings`);
+    let url = 'api/bookings';
+
+    if (searchParams) {
+      url += `?${searchParams}`;
+    }
+
+    const res = await api.get(url);
     return res.data;
   } catch (err) {
     console.error(`Error fetching bookings: ${err}`);
   }
 }
 
-export async function getBooking({queryKey}) {
-  
-}
+export async function getBooking({ queryKey }) {}
