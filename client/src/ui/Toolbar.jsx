@@ -5,9 +5,12 @@ const StyledToolbar = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 0.2rem;
   height: fit-content;
-  border: 1px solid var(--color-grey-100);
-  padding: 0.2rem 0;
-  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-grey-200);
+  background-color: var(--color-grey-50);
+  border-radius: var(--border-radius-md);
+  padding: 0.4rem 0.2rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 0.4rem;
 `;
 
 const StyledToolbarPanel = styled.div`
@@ -17,20 +20,24 @@ const StyledToolbarPanel = styled.div`
     props.side === 'left' &&
     css`
       grid-column: 1;
+      grid-row: 1;
+      padding-left: 0.4rem;
     `}
 
   ${props =>
     props.side === 'right' &&
     css`
       grid-column: 2;
+      grid-row: 1;
       justify-content: flex-end;
+      padding-right: 0.4rem;
     `}
 `;
 
 const buttonSizes = {
   small: css`
     font-size: 1.2rem;
-    padding: 0.4rem 0.8rem;
+    padding: 0.4rem 1.2rem;
     text-transform: uppercase;
     font-weight: 600;
     text-align: center;
@@ -42,7 +49,7 @@ const buttonSizes = {
   `,
   large: css`
     font-size: 1.6rem;
-    padding: 1.2rem 2.4rem;
+    padding: 0.4rem 2.4rem;
     font-weight: 500;
   `,
 };
@@ -51,8 +58,9 @@ const buttonVariations = {
   primary: css`
     color: var(--color-grey-600);
     background: var(--color-grey-0);
-    border: 1px solid var(--color-grey-100);
+    border: 1px solid var(--color-grey-200);
     transition: all 0.3s;
+    /* box-shadow: var(--box-shadow-md); */
 
     &:hover:not(:disabled) {
       background-color: var(--color-brand-600);
@@ -128,6 +136,7 @@ const Button = styled.button`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
+  margin: 0 0.3rem;
 
   ${props => buttonSizes[props.$size]}
   ${props => buttonVariations[props.$variation]}

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import { getBookings } from '../services/apiBookings';
-import ToolButton from './ToolButton';
+import Toolbar from './Toolbar';
 
 const StyledFilter = styled.div`
   border: 1px solid var(--color-grey-100);
@@ -66,15 +66,15 @@ function Filter({ filterField, options }) {
         {filterField.charAt(0).toUpperCase() + filterField.slice(1) + ':'}
       </FilterLabel>
       {options.map(option => (
-        <ToolButton
-        $variation="secondary"
-        $size="medium"
+        <Toolbar.Button
+          $variation="secondary"
+          $size="medium"
           key={option.value}
           onClick={() => handleClick(option.value)}
           $active={option.value === currentFilter}
           disabled={option.value === currentFilter}>
           {option.label}
-        </ToolButton>
+        </Toolbar.Button>
       ))}
       {/* {options.map(option => (
         <FilterButton

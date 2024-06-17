@@ -15,6 +15,9 @@ import Homepage from './pages/Homepage';
 import Productions from './pages/Productions';
 import GlobalStyles from './styles/GlobalStyles';
 import { Toaster } from 'react-hot-toast';
+import AssetTable from './features/assets/AssetTable';
+import { LuActivitySquare } from 'react-icons/lu';
+import CreateBookingForm from './features/bookings/CreateBookingForm';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,10 +41,12 @@ function App() {
             <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="timeline" element={<Timeline />} />
-            <Route path="bookings" element={<Bookings />} />
+            <Route path="bookings" element={<Bookings />}>
+              <Route path="create" element={<CreateBookingForm />} />
+            </Route>
             <Route path="assets" element={<Assets />}>
-              <Route index element={<Navigate replace to="equip" />} />
-              <Route path=":category" element={'Tanstack Table here!'} />
+              <Route index element={<Navigate replace to="equipment" />} />
+              <Route path=":category" element={<AssetTable />} />
             </Route>
             <Route path="groups" element={<Groups />} />
             <Route path="productions" element={<Productions />} />

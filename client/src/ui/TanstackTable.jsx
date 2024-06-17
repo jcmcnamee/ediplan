@@ -91,12 +91,8 @@ function TanstackTable({ data, columnDefinitions, children}) {
     manualPagination: true,
     rowCount: data?.rowCount,
     state: {
-      // columnFilters,
-      // sorting,
       pagination,
     },
-    // onColumnFiltersChange: setColumnFilters,
-    // onSortingChange: setSorting,
     onPaginationChange: setPagination,
     initialState: {
       columnVisibility: {

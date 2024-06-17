@@ -1,10 +1,4 @@
 import styled from 'styled-components';
-import {
-  useReactTable,
-  getCoreRowModel,
-  getFacetedMinMaxValues,
-  getFacetedUniqueValues,
-} from '@tanstack/react-table';
 
 import { useBookings } from './useBookings';
 
@@ -12,12 +6,9 @@ import Spinner from '../../ui/Spinner';
 import Menus from '../../ui/Menus';
 import Empty from '../../ui/Empty';
 import TanstackTable from '../../ui/TanstackTable';
-import { useCallback, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+
 import { bookingColumnDefinitions } from './bookingColumnDefinitions';
-import Toolbar from '../../ui/Toolbar';
-import FilterMenu from '../../ui/Table/FilterMenu';
-import Filter from '../../ui/Filter';
+
 
 const Container = styled.div`
   display: flex;

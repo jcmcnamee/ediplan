@@ -12,6 +12,7 @@ import { useOutsideClick } from '../../hooks/useOutsideClick';
 import { createPortal } from 'react-dom';
 import Button from '../Button';
 import ToolButton from '../ToolButton';
+import Toolbar from '../Toolbar';
 
 // const StyledToggle = styled.button`
 //   background: none;
@@ -82,13 +83,13 @@ function Toggle() {
   }
 
   return (
-    <ToolButton
+    <Toolbar.Button
       $variation="primary"
       $size="medium"
       $active={isOpen}
       onClick={handleClick}>
       <LuSlidersHorizontal />
-    </ToolButton>
+    </Toolbar.Button>
   );
 }
 
