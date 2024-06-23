@@ -51,7 +51,7 @@ input:focus,
 button:focus,
 textarea:focus,
 select:focus {
-  outline: 3px solid var(--color-brand-600);
+  outline: 3px solid var(--color-brand-200);
   outline-offset: -1px;
 }
 
@@ -89,6 +89,25 @@ img {
 
   /* For dark mode */
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
+}
+
+
+.react-datepicker-wrapper{
+
+  & svg {
+          color: var(--color-brand-800);
+          height: 2rem;
+          width: auto;
+        }
+}
+
+.react-datepicker__month-container {
+  background-color: var(--color-brand-100);
+}
+
+.react-datepicker__day {
+  background-color: var(--color-brand-50);
+  border-radius: var(--border-radius-md);
 }
 
 /* CSS vars */

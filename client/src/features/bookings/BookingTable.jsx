@@ -8,7 +8,7 @@ import Empty from '../../ui/Empty';
 import TanstackTable from '../../ui/TanstackTable';
 
 import { bookingColumnDefinitions } from './bookingColumnDefinitions';
-
+import { useState } from 'react';
 
 const Container = styled.div`
   display: flex;
@@ -17,14 +17,7 @@ const Container = styled.div`
 `;
 
 function BookingTable() {
-  // const [columnFilters, setColumnFilters] = useState([]);
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // const [sorting, setSorting] = useState([
-  //   {
-  //     id: 'startDate',
-  //     desc: true,
-  //   },
-  // ]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const { bookings, error, isPending } = useBookings();
 

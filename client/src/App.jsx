@@ -33,50 +33,50 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
 
-      <GlobalStyles />
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<Homepage />} />
-          <Route path="/app" element={<AppLayout />}>
-            <Route index element={<Navigate replace to="dashboard" />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="timeline" element={<Timeline />} />
-            <Route path="bookings" element={<Bookings />}>
-              <Route path="create" element={<CreateBookingForm />} />
+        <GlobalStyles />
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<Homepage />} />
+            <Route path="/app" element={<AppLayout />}>
+              <Route index element={<Navigate replace to="dashboard" />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="timeline" element={<Timeline />} />
+              <Route path="bookings" element={<Bookings />}>
+                <Route path="create" element={<CreateBookingForm />} />
+              </Route>
+              <Route path="assets" element={<Assets />}>
+                <Route index element={<Navigate replace to="equipment" />} />
+                <Route path=":category" element={<AssetTable />} />
+              </Route>
+              <Route path="groups" element={<Groups />} />
+              <Route path="productions" element={<Productions />} />
+              <Route path="settings" element={<Settings />} />
             </Route>
-            <Route path="assets" element={<Assets />}>
-              <Route index element={<Navigate replace to="equipment" />} />
-              <Route path=":category" element={<AssetTable />} />
-            </Route>
-            <Route path="groups" element={<Groups />} />
-            <Route path="productions" element={<Productions />} />
-            <Route path="settings" element={<Settings />} />
-          </Route>
-          <Route path="login" element={<Login />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
+            <Route path="login" element={<Login />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
 
-      <Toaster
-        position="top-center"
-        gutter={12}
-        containerStyle={{ margin: '8px' }}
-        toastOptions={{
-          success: {
-            furation: 3000,
-          },
-          error: {
-            duration: 5000,
-          },
-          style: {
-            fontSize: '16px',
-            maxWidth: '500px',
-            padding: '10px 20px',
-            backgroundColor: 'var(--color-grey-0)',
-            color: 'var(--color-grey-700)',
-          },
-        }}
-      />
+        <Toaster
+          position="top-center"
+          gutter={12}
+          containerStyle={{ margin: '8px' }}
+          toastOptions={{
+            success: {
+              furation: 3000,
+            },
+            error: {
+              duration: 5000,
+            },
+            style: {
+              fontSize: '16px',
+              maxWidth: '500px',
+              padding: '10px 20px',
+              backgroundColor: 'var(--color-grey-0)',
+              color: 'var(--color-grey-700)',
+            },
+          }}
+        />
     </QueryClientProvider>
   );
 }

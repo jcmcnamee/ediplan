@@ -1,37 +1,10 @@
-import {
-  createContext,
-  memo,
-  useContext,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { createContext, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { LuSlidersHorizontal } from 'react-icons/lu';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 import { createPortal } from 'react-dom';
-import Button from '../Button';
-import ToolButton from '../ToolButton';
+
 import Toolbar from '../Toolbar';
-
-// const StyledToggle = styled.button`
-//   background: none;
-//   border: none;
-//   padding: 0.4rem;
-//   border-radius: var(--border-radius-md);
-//   transform: translateX(0.8rem);
-//   transition: all 0.3s;
-
-//   &:hover {
-//     background-color: var(--color-grey-100);
-//   }
-
-//   & svg {
-//     width: 2.4rem;
-//     height: 2.4rem;
-//     color: var(--color-grey-700);
-//   }
-// `;
 
 const StyledList = styled.ul`
   position: fixed;

@@ -5,7 +5,6 @@ import FilterMenu from '../ui/Table/FilterMenu';
 import Toolbar from '../ui/Toolbar';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import Input from '../ui/Form/Input';
-import DatePicker from 'react-datepicker';
 
 function Bookings() {
   const pathSegments = useLocation()
@@ -18,7 +17,6 @@ function Bookings() {
       <h1>Bookings</h1>
       {isChildRoute ? (
         <>
-          <Toolbar></Toolbar>
           <Outlet />
         </>
       ) : (

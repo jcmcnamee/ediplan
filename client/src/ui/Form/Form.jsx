@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 import Input from './Input';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
-
 import 'react-datepicker/dist/react-datepicker.css';
 import { LuCalendar } from 'react-icons/lu';
 
@@ -43,7 +42,7 @@ const Form = styled.form`
 
 const StyledFormItem = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 1fr 3fr;
   gap: 0.8rem;
   align-items: center;
   grid-column: 1;
@@ -63,6 +62,10 @@ const StyledTextArea = styled.textarea`
   resize: none;
 `;
 
+const StyledCheckbox = styled.input`
+  justify-self: start;
+`;
+
 Form.defaultProps = {
   type: 'regular',
   columns: true,
@@ -73,21 +76,36 @@ StyledFormItem.defaultProps = {
 };
 
 function TextShort({ side, label, id }) {
+  const [text, setText] = useState('');
+
   return (
     <StyledFormItem side={side}>
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
-      <Input type="text" id={id} />
+      <Input
+        type="text"
+        id={id}
+        value={text}
+        onChange={e => setText(e.target.value)}
+      />
     </StyledFormItem>
   );
 }
 
 function TextLong({ side, label, id }) {
+  const [text, setText] = useState('');
+
   return (
     <StyledFormItem side={side}>
       <StyledLabel htmlFor={id} style={{ alignSelf: 'start' }}>
         {label}
       </StyledLabel>
-      <StyledTextArea rows="2" cols="25" id={id} />
+      <StyledTextArea
+        rows="4"
+        cols="25"
+        id={id}
+        value={text}
+        onChange={e => setText(e.target.value)}
+      />
     </StyledFormItem>
   );
 }
@@ -96,13 +114,33 @@ function DateSelect({ side, label, id }) {
   const [startDate, setStartDate] = useState(new Date());
 
   return (
-    <StyledFormItem>
-      <StyledLabel>{label}</StyledLabel>
+    <StyledFormItem side={side}>
+      <StyledLabel htmlFor={id}>{label}</StyledLabel>
       <DatePicker
         showIcon
         selected={startDate}
-        icon={<LuCalendar size={100}/>
-        }
+        onChange={date => setStartDate(date)}
+        icon={<LuCalendar />}
+        calendarClassName="calendar"
+      />
+    </StyledFormItem>
+  );
+}
+
+function WrappedCheckbox({ props }) {
+  return <input type="checkbox" {...props} />;
+}
+
+function Checkbox({ side, label, id }) {
+  const [isChecked, setIsChecked] = useState(false);
+
+  return (
+    <StyledFormItem side={side}>
+      <StyledLabel htmlFor={id}>{label}</StyledLabel>
+      <StyledCheckbox
+        type="checkbox"
+        checked={isChecked}
+        onChange={e => setIsChecked(e.value)}
       />
     </StyledFormItem>
   );
@@ -111,5 +149,6 @@ function DateSelect({ side, label, id }) {
 Form.TextShort = TextShort;
 Form.TextLong = TextLong;
 Form.DateSelect = DateSelect;
+Form.Checkbox = Checkbox;
 
 export default Form;

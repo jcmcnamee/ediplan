@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchAssets } from '../../services/apiAssets';
 
-export function useAssets(category = 'equipment') {
+export function useAssets(category) {
   const {
     data: assets,
     error,

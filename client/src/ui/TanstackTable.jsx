@@ -1,7 +1,13 @@
 import { createContext, memo, useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { getAssetVariableName, getBookingVariableName } from '../utils/helpers';
-import { flexRender, getCoreRowModel, getFacetedMinMaxValues, getFacetedUniqueValues, useReactTable } from '@tanstack/react-table';
+import {
+  flexRender,
+  getCoreRowModel,
+  getFacetedMinMaxValues,
+  getFacetedUniqueValues,
+  useReactTable,
+} from '@tanstack/react-table';
 import { useSearchParams } from 'react-router-dom';
 import Filter from './Filter';
 
@@ -82,7 +88,7 @@ const Empty = styled.p`
 
 const TableContext = createContext();
 
-function TanstackTable({ data, columnDefinitions, children}) {
+function TanstackTable({ data, columnDefinitions, children }) {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
 
   const table = useReactTable({

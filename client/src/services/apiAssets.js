@@ -9,10 +9,14 @@ const api = axios.create({
 
 export async function fetchAssets({ queryKey }) {
   const category = queryKey[1];
-  console.log('Assets API: ', category);
   try {
-    const res = await api.get(`api/assets/${category}`);
-    return res.data;
+    if (category) {
+      const res = await api.get(`api/assets/${category}`);
+      return res.data;
+    } else {
+      const res = await api.get(`api/assets`);
+      return res.data;
+    }
   } catch (err) {
     console.error(`Error fetching ${category}: ${err}`);
   }
