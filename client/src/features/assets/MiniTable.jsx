@@ -7,12 +7,10 @@ import {
 } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import MiniTableLayout from '../../ui/Table/MiniTableLayout';
-import Empty from '../../ui/Empty';
 import IndeterminateCheckbox from '../../ui/Form/IndeterminateCheckbox';
 
-function MiniTable({ tableData }) {
-  const [pagination, setPagination] = useState(null);
-  const [rowSelection, setRowSelection] = useState({});
+function MiniTable({rowSelection, setRowSelection, tableData, pageCount }) {
+  // const [pagination, setPagination] = useState(null);
 
   const [columns, data] = useMemo(() => {
     const column = createColumnHelper();
@@ -30,12 +28,6 @@ function MiniTable({ tableData }) {
                 onChange: row.getToggleSelectedHandler(),
               }}
             />
-            {/* <input
-              type="checkbox"
-              checked={row.getIsChecked}
-              disabled={row.getCanSelect}
-              onChange={row.getToggleSelectedHandler}
-            /> */}
           </div>
         ),
       }),
@@ -53,18 +45,16 @@ function MiniTable({ tableData }) {
     return [columns, tableData];
   }, [tableData]);
 
-  console.log(rowSelection);
-
   const table = useReactTable({
     data: data ?? [],
     columns: columns,
     manualPagination: true,
-    rowCount: data?.rowCount,
+    pageCount: pageCount,
     state: {
-      pagination,
+      // pagination,
       rowSelection,
     },
-    onPaginationChange: setPagination,
+    // onPaginationChange: setPagination,
     onRowSelectionChange: setRowSelection,
     initialState: {
       columnVisibility: {

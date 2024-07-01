@@ -19,16 +19,10 @@ const StyledList = styled.ul`
 
 const FilterMenuContext = createContext();
 
-function FilterMenu({ children }) {
-  const [position, setPosition] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const close = () => setIsOpen(false);
-  const open = setIsOpen;
-
+function FilterMenu({ isOpen, setIsOpen, position, setPosition, children }) {
   return (
     <FilterMenuContext.Provider
-      value={{ isOpen, close, open, position, setPosition }}>
+      value={{ isOpen, setIsOpen, position, setPosition }}>
       {children}
     </FilterMenuContext.Provider>
   );
@@ -42,7 +36,7 @@ const Menu = styled.div`
 `;
 
 function Toggle() {
-  const { isOpen, close, open, setPosition } = useContext(FilterMenuContext);
+  const { isOpen, setIsOpen, setPosition } = useContext(FilterMenuContext);
 
   function handleClick(e) {
     const rect = e.target.closest('button').getBoundingClientRect();
@@ -52,7 +46,7 @@ function Toggle() {
       y: rect.y + rect.height + 8,
     });
 
-    isOpen === false ? open(true) : close();
+    setIsOpen(s => !s);
   }
 
   return (

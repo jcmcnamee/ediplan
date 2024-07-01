@@ -4,6 +4,7 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { LuCalendar } from 'react-icons/lu';
+import { Controller, useFormContext } from 'react-hook-form';
 
 const Form = styled.form`
   display: grid;
@@ -75,54 +76,75 @@ StyledFormItem.defaultProps = {
   side: 'left',
 };
 
-function TextShort({ side, label, id }) {
-  const [text, setText] = useState('');
+function TextShort({ side, label, id, placeholder }) {
+  // const [text, setText] = useState('');
+  const { register } = useFormContext();
 
   return (
     <StyledFormItem side={side}>
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
-      <Input
+      {/* <Input
         type="text"
         id={id}
         value={text}
         onChange={e => setText(e.target.value)}
-      />
+      /> */}
+      <Input placeholder={placeholder} {...register(id)} />
     </StyledFormItem>
   );
 }
 
-function TextLong({ side, label, id }) {
-  const [text, setText] = useState('');
+function TextLong({ side, label, id, placeholder }) {
+  // const [text, setText] = useState('');
+  const { register } = useFormContext();
 
   return (
     <StyledFormItem side={side}>
       <StyledLabel htmlFor={id} style={{ alignSelf: 'start' }}>
         {label}
       </StyledLabel>
-      <StyledTextArea
+      {/* <StyledTextArea
         rows="4"
         cols="25"
         id={id}
         value={text}
         onChange={e => setText(e.target.value)}
-      />
+      /> */}
+      <StyledTextArea placeholder={placeholder} {...register(id)} />
     </StyledFormItem>
   );
 }
 
-function DateSelect({ side, label, id }) {
+function DateSelect({ side, label, id,  }) {
   const [startDate, setStartDate] = useState(new Date());
+  const { control, getValues } = useFormContext();
+
+  console.log(getValues(id));
 
   return (
     <StyledFormItem side={side}>
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
-      <DatePicker
+      <Controller
+        name={id}
+        control={control}
+        render={({ field }) => (
+          <DatePicker
+            showIcon
+            icon={<LuCalendar />}
+            calendarClassName="calendar"
+            onChange={date => field.onChange(date)}
+            selected={field.value}
+            id={id}
+          />
+        )}
+      />
+      {/* <DatePicker
         showIcon
         selected={startDate}
         onChange={date => setStartDate(date)}
         icon={<LuCalendar />}
         calendarClassName="calendar"
-      />
+      /> */}
     </StyledFormItem>
   );
 }
@@ -132,16 +154,18 @@ function WrappedCheckbox({ props }) {
 }
 
 function Checkbox({ side, label, id }) {
-  const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
+  const { register } = useFormContext();
 
   return (
     <StyledFormItem side={side}>
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
-      <StyledCheckbox
+      {/* <StyledCheckbox
         type="checkbox"
         checked={isChecked}
         onChange={e => setIsChecked(e.value)}
-      />
+      /> */}
+      <StyledCheckbox type="checkbox" {...register(id)} />
     </StyledFormItem>
   );
 }

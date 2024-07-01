@@ -8,19 +8,37 @@ const api = axios.create({
 });
 
 export async function fetchAssets({ queryKey }) {
-  const category = queryKey[1];
+  const [_, category, url] = queryKey;
   try {
-    if (category) {
-      const res = await api.get(`api/assets/${category}`);
-      return res.data;
-    } else {
-      const res = await api.get(`api/assets`);
-      return res.data;
-    }
+    const res = url 
+      ? await api.get(url)
+      : await api.get(category ? `api/assets/${category}` : 'api/assets');
+    
+    return {
+      data: res.data,
+      headers: res.headers,
+    };
   } catch (err) {
-    console.error(`Error fetching ${category}: ${err}`);
+    console.error(`Error fetching assets: ${err}`);
+    throw err;
   }
 }
+
+// export async function fetchAssets({ queryKey }) {
+//   const category = queryKey[1];
+//   try {
+//     if (category) {
+//       const res = await api.get(`api/assets/${category}`);
+//       return res.data;
+//     } else {
+//       const res = await api.get(`api/assets`);
+//       console.log('Response: ', res);
+//       return res;
+//     }
+//   } catch (err) {
+//     console.error(`Error fetching ${category}: ${err}`);
+//   }
+// }
 
 export async function deleteAsset(id) {
   try {
